@@ -1,0 +1,148 @@
+﻿
+@{
+}
+<div class="col-12 col-lg-6 col-xl-4">
+    <div class="form-group">
+        <label>
+            <span class="father-lang"></span>  <span class="text-danger">*</span>
+        </label>
+        <input type="text" id="txtparent" autocomplete="off" class="form-control" />
+    </div>
+</div>
+<div class="col-12 col-lg-6 col-xl-4">
+    <div class="form-group">
+        <label>
+            <span class="ageondeath-lang"></span> <span class="text-danger">*</span>
+        </label>
+        <input type="number" id="txtageyear" autocomplete="off" class="form-control" onKeyPress="if(this.value.length==2) return false;" />
+    </div>
+</div>
+<div class="col-12 col-lg-6 col-xl-4">
+    <div class="form-group">
+        <label>
+            <span class="locationdeath-lang"></span> <span class="text-danger">*</span>
+        </label>
+        <select id="ddldist" asp-items="@(new SelectList(ViewBag.District, "DistId", "DistName"))" class="form-control">
+            <option value="">Select</option>
+        </select>
+    </div>
+</div>
+<div class="col-12 col-lg-6 col-xl-4" id="divhospital">
+    <div class="form-group">
+        <label>
+            <span class="hospitalname-lang"></span> <span class="text-danger">*</span>
+        </label>
+        <input type="text" autocomplete="off" id="txtdhospital" class="form-control" />
+    </div>
+</div>
+<div class="col-12 col-lg-6 col-xl-4" id="divdother">
+    <div class="form-group">
+        <label>
+            <span class="other-lang"></span> place name <span class="text-danger">*</span>
+        </label>
+        <input type="text" autocomplete="off" id="txtdother" class="form-control" />
+    </div>
+</div>
+<div class="col-12 col-lg-6 col-xl-6">
+    <div class="form-group">
+        <label>
+            <span class="typetest-lang"></span> <span class="text-danger">*</span>
+        </label>
+
+        <select id="ddltypeoftest" class="form-control">
+            <option value="">Select</option>
+            <option value="1">RT-PCR</option>
+            <option value="2">Rapid Antigen</option>
+            <option value="3">Any Medical or Clinical Test</option>
+            <option value="4">Clinically Diagnosed</option>
+        </select>
+    </div>
+</div>
+<div class="col-12 col-lg-6 col-xl-4">
+    <div class="form-group">
+        <label>
+            <span class="causeofdeath-lang"></span> <span class="text-danger">*</span>
+        </label>
+        <input type="text" autocomplete="off" id="txtcauseofdeath" class="form-control" />
+    </div>
+</div>
+<div class="col-12 col-lg-6 col-xl-4">
+    <div class="form-group">
+        <label>
+            <span class="regno-lang"></span> <span class="text-danger">*</span>
+        </label>
+        <input type="text" id="txtadeathregdno" autocomplete="off" class="form-control" />
+    </div>
+</div>
+<div class="col-12 col-lg-6 col-xl-4">
+    <div class="form-group">
+        <label>
+            <span class="state-lang"></span> <span class="text-danger">*</span>
+        </label><br />
+        <select id="ddlstate" asp-items="@(new SelectList(ViewBag.States, "StateId", "StateName"))" class="form-control">
+            <option value="">Select</option>
+        </select>
+    </div>
+</div>
+<div class="col-12 col-lg-6 col-xl-4">
+    <div class="form-group">
+        <label>
+            <span class="aadhaarno-lang"></span> <span class="text-danger">*</span>
+        </label>
+        <input type="text" id="txtaadhaarno" autocomplete="off" class="form-control" maxlength="12" />
+    </div>
+</div>
+<div class="col-12 col-lg-6 col-xl-4">
+    <div class="form-group">
+        <label>
+            <span class="district-lang"></span> <span class="text-danger">*</span>
+        </label>
+        <select id="ddldistrict" asp-items="@(new SelectList(ViewBag.Districts, "DistId", "DistName"))" class="form-control">
+            <option value="">Select</option>
+        </select>
+    </div>
+</div>
+<div class="col-12 col-lg-6 col-xl-4">
+    <div class="form-group">
+        <label>
+            <span class="address-lang"></span>
+        </label>
+        <input type="text" id="txthouseno" autocomplete="off" class="form-control" maxlength="50">
+    </div>
+</div>
+<div class="col-12 col-lg-6 col-xl-4">
+    <div class="form-group">
+        <label>
+            <span class="relationdeceased-lang"></span> <span class="text-danger">*</span>
+        </label>
+        <select id="ddlrelation" class="form-control">
+            <option Value="">Select</option>
+            <option Value="Father">Father</option>
+            <option Value="Mother">Mother</option>
+            <option Value="Spouse">Spouse</option>
+            <option Value="Son">Son</option>
+            <option Value="Widowed Daugther-in-law">Widowed Daugther-in-law</option>
+            <option Value="Dependant Sister">Dependant Sister</option>
+            <option Value="Dependant Brother">Dependant Brother</option>
+            <option Value="Unmarried Daughter">Unmarried Daughter</option>
+            <option Value="Dependant Married Daughter">Dependant Married Daughter</option>
+        </select>
+    </div>
+</div>
+
+<div class="col-12 col-lg-6 col-xl-4">
+    <div class="form-group">
+        <label>
+            <span class="mobileaplcnt-lang"></span> <span class="text-danger">*</span>
+        </label>
+        <input type="tel" id="txtmobno" autocomplete="off" class="form-control" maxlength="10" pattern="[0-9]{10}" />
+    </div>
+</div>
+<div class="col-12 col-lg-6 col-xl-4">
+    <div class="form-group">
+        <label id="documentno">
+            <span class="aadhaarno-lang"></span> <span class="text-danger">*</span>
+        </label>
+        <input type="text" id="txtdocumentno" autocomplete="off" class="form-control" maxlength="12" />
+    </div>
+</div>

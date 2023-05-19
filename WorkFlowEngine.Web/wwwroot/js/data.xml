@@ -1,0 +1,18 @@
+<form-template xmlns="http://www.w3.org/1999/xhtml">
+<fields>
+
+<field type="autocomplete" required="false" label="Autocomplete" 
+    class-name="form-control" name="autocomplete-1649659928512-0" access="false" require-valid-option="false">
+    <option label="Option 1" value="option-1" selected="selected">Option 1</option>
+    <option label="Option 2" value="option-2">Option 2</option>
+    <option label="Option 3" value="option-3">Option 3</option>
+</field>
+
+<field type="button" label="Button" subtype="button" class-name="btn-default btn" 
+    name="button-1649659966636-0" access="false" style="default">
+</field>
+
+</fields>
+</form-template>
+
+

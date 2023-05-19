@@ -1,0 +1,242 @@
+﻿
+@{
+    ViewData["Title"] = "FormResultsView";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string Glink = Context.Request.Query["Glink"];
+    string Plink = Context.Request.Query["Plink"];
+    var ListData = ViewBag.Result;
+    string tblwidth = "";
+}
+
+<div class="card">
+    <div class="card-header">
+        <ul class="nav nav-tabs" role="tablist">
+            <a id="lnkAdd" href="" class="nav-link">Add</a>
+            <a id="lnkView" href="" class="nav-link active">View</a>
+        </ul>
+
+    </div>
+    <div class="card-body">
+        <div class="search-container">
+            <form asp-controller="Result" asp-action="GetResultsView" asp-antiforgery="true" asp-route-surveyId="@ViewBag.surveyId" asp-route-surveyName="@ViewBag.surveyName" method="post">
+                <div class="form-group">
+
+                    <div class="row">
+                        <input type="hidden" id="hdnid" value="@ViewBag.surveyId" asp-for="ID" />
+                        <input type="hidden" id="hdnid" value="@ViewBag.surveyName" asp-for="SCHEME_NAME" />
+
+                    </div>
+
+                </div>
+            </form>
+
+        </div> <br />
+
+        <div class="table-responsive">
+            @if (ListData != null)
+            {
+                @if (ListData.Tables[0].Rows.Count > 0)
+                {
+                    tblwidth = @ListData.Tables[0].Rows.Count * 200 + "px";
+
+                    <table data-toggle="table" class="table" id="tblFormView">
+                        <thead>
+                            <tr>
+
+                                <th>Sl No.</th>
+                                <th style="display:none;"></th>
+                                <th style="display:none;"></th>
+                                <th style="display:none;"></th>
+                                @foreach (var Item in ListData.Tables[1].Columns)
+                                {
+                                    if (Item.ColumnName.Contains("|"))
+                                    {
+                                        <th>@Item.ColumnName.Split("|")[0]</th>
+                                    }
+                                }
+                                @if (ListData.Tables[0].Rows[0]["matrixcnt"] > 0)
+                                {
+                                    <th></th>
+                                }
+                                <th style="width: 8% !important;">Action</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (ListData != null)
+                            {
+                                @if (ListData.Tables[0].Columns.Count == 0)
+                                {
+                                    <tr>
+                                        <td colspan="3">No Record found.</td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    @if (ListData.Tables[1].Rows.Count > 0)
+                                    {
+                                        var count = 1;
+                                        @for (int i = 0; i < ListData.Tables[1].Rows.Count; i++)
+                                        {
+
+                                            <tr>
+                                                <td>@count</td>
+                                                <td style="display:none;" id="tid">@ListData.Tables[1].Rows[i]["INTID"]</td>
+                                                <td style="display:none;" id="fid">@ListData.Tables[1].Rows[i]["formid"]</td>
+                                                <td style="display:none;"> <input type="hidden" id="AppNo" value="@ListData.Tables[1].Rows[0]["APPLICANT_NO"]" /></td>
+                                                @*@foreach (var Item in ListData.Tables[0].Columns[1].Table.Rows)
+                                                    {*@
+                                                @foreach (var Item in ListData.Tables[1].Columns)
+                                                {
+                                                    if (Item.ColumnName.Contains("|"))
+                                                    {
+                                                        if (Item.ColumnName.Split("|")[1] == "")
+                                                        {
+                                                            <td>@ListData.Tables[1].Rows[i][Item.ColumnName]</td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td>@ListData.Tables[1].Rows[i][Item.ColumnName.Split("|")[1]]</td>
+                                                        }
+                                                    }
+
+                                                    //if (Item.ItemArray[0].ToUpper().Replace(" ", "") == ListData.Tables[1].Columns[j].ColumnName.ToUpper())
+                                                    //{
+                                                    @*<td>@ListData.Tables[1].Rows[i][j]</td>*@
+                                                    //}
+                                                }
+
+                                                @*}*@
+                                                @if (ListData.Tables[0].Rows[0]["matrixcnt"] > 0)
+                                                {
+                                                    <td>
+                                                        @if (ListData.Tables[0].Rows[0]["PRINTCONFIG"] == "Pop Up")
+                                                        {
+                                                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#MyPopupM" onclick="TakeAction('@ListData.Tables[1].Rows[i]["formid"]','@ListData.Tables[1].Rows[i]["Applicant_No"]')">Print</button>
+                                                        }
+                                                        else
+                                                        {
+                                                            <a class="btn btn-danger btn-sm" href="/Admin/ViewDetailsView?FormId=@ListData.Tables[1].Rows[i]["formid"]&Applicant_No=@ListData.Tables[1].Rows[i]["Applicant_No"]" target="_blank">Print</a>
+                                                        }
+                                                    </td>
+                                                }
+                                                <td>
+                                                    <a class="btn btn-primary" href="@Url.Action("ViewForm", "Admin", new { Area = "WFERender" })?FormId=@ListData.Tables[1].Rows[i]["formid"]&name=@ViewBag.FormName&ApplicantNo=@ListData.Tables[1].Rows[i]["APPLICANT_NO"]"><i class="fa fa-edit"></i></a>
+                                                    <a class="btn btn-danger" onclick="DeleteData('@ListData.Tables[1].Rows[i]["INTID"]','@ListData.Tables[1].Rows[i]["formid"]')" style="margin-right: -6px;"><i class="fa fa-trash"></i></a>
+                                                </td>
+                                            </tr>
+                                            count = count + 1;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="3"> No Record found.</td>
+
+                                        </tr>
+                                    }
+                                }
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <script>alert("Please contact to Admin for column config ")</script>
+                }
+            }
+            else
+            {
+                <script>alert("Some error occurred")</script>
+            }
+        </div>
+    </div>
+</div>
+<div class="modal  bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="MyPopupM">
+
+</div>
+
+<script>
+     $(document).ready(function () {
+         var gl = decodeURI(getUrlVars()["Glink"]);
+         var pl = decodeURI(getUrlVars()["Plink"]);
+
+         if (gl == 'undefined') {
+             gl = 0;
+         }
+         if (pl == 'undefined') {
+             pl = 0;
+         }
+         document.getElementById("lnkAdd").href = "@Url.Action("ViewForm", "Admin", new { Area = "WFERender" })?FormId=" + getUrlVars()["FormId"] + "&name=" + getUrlVars()["name"]+"&Glink="+gl+"&Plink="+pl;
+         document.getElementById("lnkView").href = "@Url.Action("FormResultsView", "Admin", new { Area = "WFERender" })?FormId=" + getUrlVars()["FormId"] + "&name=" + getUrlVars()["name"] +"&Glink="+gl+"&Plink="+pl;
+         getDataTable();
+
+     });
+    function getUrlVars() {
+        var vars = [], hash;
+        var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+        for (var i = 0; i < hashes.length; i++) {
+            hash = hashes[i].split('=');
+            vars.push(hash[0]);
+            vars[hash[0]] = hash[1];
+        }
+        return vars;
+    }
+    function getDataTable() {
+        $('#tblFormView').DataTable({
+            "searching": true,
+            "dom": 'Bfrtip',
+            "autoWidth": false,
+            "buttons": [
+                {
+                    extend: 'pageLength'
+                }
+            ],
+            "lengthMenu": [
+                [10, 25, 50, 100, 1000 - 1],
+                ['10 rows', '25 rows', '50 rows', '100 rows', '1000 rows', 'Show all']
+            ]
+
+        });
+    }
+    function TakeAction(Formid, Applicant_No) {
+        $.ajax({
+            url: "/Admin/TakeActionInView",
+            method: 'get',
+            data: {
+                Formid: Formid, Applicant_No: Applicant_No
+            },
+            success: function (result) {
+                $("#MyPopupM").html(result);
+                $('#MyPopupM').modal('show');
+            }
+        });
+    }
+    function DeleteData(Resultid,Formid) {
+         var r = confirm("Are you sure , you want to delete ?");
+        if (r === true) {
+            $.ajax({
+                type: "get",
+                url: '@Url.Action("DeleteFormData", "Admin")',
+                data: {
+                    Resultid: Resultid, Formid: Formid
+                },
+                success: function (response) {
+
+                    if (response == 0) {
+                        alert(response.msg);
+
+                    } else if (response == 1) {
+                        bootbox.alert("Data deleted successfully.");
+                        window.location.reload();
+                    }
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    // TODO: Show error
+
+                }
+            });
+        }
+    }
+</script>
+

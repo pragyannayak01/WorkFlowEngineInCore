@@ -1,0 +1,8 @@
+{
+  "Client": {
+    "UploadPath": "https://localhost:44325/",
+    "RenderAPIURL": "https://localhost:44323/api/Admin/",
+    "AppPath": "",
+    "APIURL": "https://dlms.jsw.in/dlmsminesapi/"
+  }
+}

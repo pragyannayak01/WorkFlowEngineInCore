@@ -1,0 +1,36 @@
+﻿
+@{
+    ViewData["Title"] = "TestForm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <!--Table element for appendGrid-->
+    <table id="tblAppendGrid"></table>
+    <script>
+            // Execute when `DOM ready`
+            document.addEventListener("DOMContentLoaded", function () {
+                // Initialize appendGrid
+                var myAppendGrid = new AppendGrid({
+                    element: "tblAppendGrid",
+                    uiFramework: "bootstrap4",
+                    iconFramework: "fontawesome5",
+                    columns: [
+                    {
+                      name: "col-1",
+                      display: "Column 1"
+                    },
+                    {
+                      name: "col-2",
+                      display: "Column 2"
+                    },
+                    {
+                      name: "col-3",
+                      display: "Column 3"
+                    }
+                    ]
+                });
+            });
+    </script>
+</div>
+

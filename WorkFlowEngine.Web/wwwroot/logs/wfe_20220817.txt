@@ -1,0 +1,2 @@
+2022-08-17 17:21:11.653 +05:30 [ERR] The number of columns for each row in a table value constructor must be the same.
+2022-08-17 17:21:52.860 +05:30 [ERR] One or more errors occurred. (A transport-level error has occurred when sending the request to the server. (provider: TCP Provider, error: 0 - An existing connection was forcibly closed by the remote host.))

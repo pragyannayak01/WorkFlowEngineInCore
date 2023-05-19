@@ -1,0 +1,253 @@
+﻿@model WorkFlowEngine.Domain.WFEngine.FormModel;
+@{
+    ViewData["Title"] = "PendingForm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var ListData = ViewBag.FormList as Task<IEnumerable<WorkFlowEngine.Domain.WFEngine.FormModel>>;
+}
+
+
+<div class="page-title">
+    <div class="title-details">
+        @*<h4>Dynamic Forms</h4>*@
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><span class="icon-home1"></span></li>
+                <li class="breadcrumb-item">Dynamic Form</li>
+                <li class="breadcrumb-item active" aria-current="page"><b>Pending Form</b></li>
+            </ol>
+        </nav>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 col-sm-12">
+        <div class="card">
+            <div class="card-header">
+                <ul class="nav nav-tabs nav-fill" role="tablist">
+                    <a asp-area="" asp-controller="Admin" asp-action="PendingForm" class="nav-item nav-link active">Pending Form</a>
+                    <a asp-area="" asp-controller="Admin" asp-action="FormApprove" class="nav-item nav-link ">Approved Form</a>
+                    <a asp-area="" asp-controller="Admin" asp-action="RejectForm" class="nav-item nav-link ">Rejected Form</a>
+                    <a asp-area="" asp-controller="Admin" asp-action="ConfigView" class="nav-item nav-link ">Config View</a>
+                    <a asp-area="" asp-controller="Admin" asp-action="ConfigConstraint" class="nav-item nav-link">Config Constraint</a>
+                </ul>
+
+            </div>
+
+            <div class="search-container">
+                <div class="search-sec">
+                    <form asp-controller="Admin" asp-action="PendingForm" asp-antiforgery="true" method="post">
+                        <div class="row">
+                            <div class="form-group col-md-3">
+                                <label class="control-label">Department</label>
+                                <select class="form-control" asp-for="DEPTID" asp-items="@(new SelectList(ViewBag.Department, "DEPTID", "DEPTNAME",ViewBag.DeptId))">
+                                    <option value="0">--Select Department--</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label class="control-label d-block">&nbsp;</label>
+                                <input type="submit" class="btn btn-primary" value="Search" />
+                            </div>
+
+                        </div>
+
+
+                    </form>
+                </div>
+                <div class="text-center"> <a class="searchopen" title="Search" data-toggle="tooltip" data-placement="bottom"> <i class="fa fa-plus"></i> </a></div>
+            </div>
+
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="example" cellspacing="0" class="table">
+                        <thead>
+                            <tr>
+                                <th width="35px">Sl#</th>
+                                <th>Department</th>
+                                <th>Scheme</th>
+                                <th>Form Name</th>
+                                @*<th>Preview</th>*@
+                                <th width="50px">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{ int count = 1;}
+                            @if (ListData.Result.ToList().Count == 0)
+                            {
+                                <tr>
+                                    <td colspan="5" class="no-record">No Record found.</td>
+                                </tr>
+                            }
+                            else
+                            {
+                                @foreach (var Item in ListData.Result)
+                                {
+                                    <tr>
+                                        <td>@count</td>
+                                        <td>@Item.DEPTNAME</td>
+                                        <td>@Item.SCHEME_NAME</td>
+                                        <td>@Item.FORMID</td>
+                                        @*<td>
+                                                <a class="btn btn-success btn-sm" href="/WFERender/Admin/ViewForm?FormId=@Item.ID&name=@Item.FORMID&Vtype=E" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                            </td>*@
+                                        <td>
+                                            <button type="button" class="btn btn-info btn-sm" onclick="openAdminMymodal(@Item.ID)">Action</button>
+                                            @*<a class="sv_button_link" onclick="openAdminMymodal(@Item.ID)">Approve Form</a>*@
+                                        </td>
+                                    </tr>
+                                    count = count + 1;
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <!-- The Modal -->
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog" style="max-width:700px">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header navbar" style="background-color: #118fbb;">
+                    <h4 class="modal-title">Action </h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="form-group row">
+                        <div class="col-12 col-md-2 col-xl-2 control-label">  Remark  </div>
+                        <div class="col-12 col-md-6 col-xl-6">
+                            <textarea type="text" class="form-control" id="txtRemark"></textarea>
+                            <input type="hidden" id="hdnid" value="" />
+                        </div>
+
+                    </div>
+                    <div class="form-group row">
+                        <h5 class="col-12 col-md-2 col-xl-2 control-label"></h5>
+                        <div class="col-12 col-md-6 col-xl-6">
+                            <button type="button" id="btnapprove" class="btn btn-success mr-auto">
+                                Approve
+                            </button>
+                            <button type="button" id="btnreject" class="btn btn-danger mr-auto">
+                                Reject
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/ScriptDocuments/scheme20210927073001876.js"></script>
+<script>
+    $(document).ready(function () {
+        if ($('#example')[0].rows[1].innerText != "No Record found.") {
+            $('#example').DataTable({
+                searching: false,
+                "bStateSave": true
+            });
+        }
+    });
+    function openAdminMymodal(id) {
+
+        $('input[id="hdnid"]').val(id);
+        $('#myModal').modal('show');
+    };
+
+    $('#btnapprove').click(function () {
+        if ($('#txtRemark').val() === "") {
+            bootbox.alert("Please enter Remark");
+            return false;
+        }
+        else {
+            //Saved Code Begin
+            bootbox.confirm({
+                size: "medium",
+                message: "Are you sure you want to Approve?",
+                callback: function (result) {
+                    if (result === true) {
+
+                        $.ajax({
+                            type: "POST",
+                            dataType: "json",
+                            url: "@Url.Action("ConvertJsonToTable", "Admin")?Id=" + $('#hdnid').val() + "&remark=" + $('#txtRemark').val() + "&status=1",
+                                //"/Admin/ConvertJsonToTable?Id=" + $('#hdnid').val() + "&remark=" + $('#txtRemark').val() + "&status=1 ",
+                            data: "",
+                            contentType: false,
+                            processData: false,
+                            success: function (data) {
+                                if (data == "1") {
+                                    bootbox.alert("Form Approved Successfully", function () {
+                                        window.location.href = "/Admin/ConfigView";
+                                    });
+                                }
+                                else {
+                                    bootbox.alert(data);
+                                    return false;
+                                }
+                            },
+                            error: function (error) {
+                                jsonValue = jQuery.parseJSON(error.responseText);
+                                bootbox.alert("Error : " + jsonValue);
+                            }
+                        });
+                    }
+                }
+            });
+
+            //Saved Code End
+        }
+    });
+
+    $('#btnreject').click(function () {
+        if ($('#txtRemark').val() === "") {
+            bootbox.alert("Please enter Remark");
+            return false;
+        }
+        else {
+            //Saved Code Begin
+            bootbox.confirm({
+                size: "medium",
+                message: "Are you sure you want to Reject?",
+                callback: function (result) {
+                    if (result === true) {
+
+                        $.ajax({
+                            type: "POST",
+                            dataType: "json",
+                             url: "@Url.Action("ConvertJsonToTable", "Admin")?Id=" + $('#hdnid').val() + "&remark=" + $('#txtRemark').val() + "&status=2",
+                                //"/Admin/ConvertJsonToTable?Id=" + $('#hdnid').val() + "&remark=" + $('#txtRemark').val() + "&status=2 ",
+                            data: "",
+                            contentType: false,
+                            processData: false,
+                            success: function (data) {
+                                if (data == "1") {
+                                    bootbox.alert("Form Rejected Successfully", function () {
+                                        window.location.href = "/Admin/RejectForm";
+                                    });
+                                }
+                                else {
+                                    bootbox.alert(data);
+                                    return false;
+                                }
+                            },
+                            error: function (error) {
+                                jsonValue = jQuery.parseJSON(error.responseText);
+                                bootbox.alert("Error : " + jsonValue);
+                            }
+                        });
+                    }
+                }
+            });
+
+            //Saved Code End
+        }
+    });
+
+</script>
+

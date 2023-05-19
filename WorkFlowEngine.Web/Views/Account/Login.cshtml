@@ -1,0 +1,192 @@
+﻿@model WorkFlowEngine.Domain.Account.Login;
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper "BotDetect.Web.Mvc.CaptchaTagHelper, BotDetect.Web.Mvc"
+@{
+    Layout = null;
+    var ListData = ViewBag.DashboardList as Task<IEnumerable<WorkFlowEngine.Domain.Account.Login>>;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workflow Engine</title>
+    <meta name="keywords" content="ADSYS" />
+    <meta name="description" content="ADSYS" />
+    <link rel="shortcut icon" href="#" type="image/x-icon">
+    <link href="~/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/css/login.css" rel="stylesheet">
+    <link href="~/css/font-awesome.min.css" rel="stylesheet">
+    <script src="~/js/jquery-3.3.1.min.js"></script>
+    <script src="~/js/popper.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/aes.js"></script>
+    <script src="~/js/jquery-3.3.1.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
+</head>
+<body>
+    <div class="paddingtop loginbox">
+        <div class="CGRC_login">
+
+            <img src="/images/workflow-element.png" alt="Workflow Engine" class="element">
+
+
+
+
+            <div align="center" class="loginlogo">
+                <img src="/images/logo-black.png" alt="Workflow Engine" class="logo1">
+                <!-- <h2>Form Builder</h2> -->
+            </div>
+            <div class="clearfix"></div>
+            <div class="content">
+                <div class="">
+                    <div class="tophead">
+                        Hi, Welcome to
+                        <span>Workflow Engine</span>
+                    </div>
+                </div>
+                <div class="clear20"></div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <input type="text" class="form-control" id="txtuname" name="VCHUSERNAME" placeholder="User Name" style="font-weight:bold;" />
+                    </div>
+                    <div class="col-sm-12">
+                        <input type="password" class="form-control" id="txtpwd" name="vchpassword" placeholder="Password" style="font-weight:bold;" />
+                        <input type="hidden" name="linkm" value="linkm">
+                        <input type="hidden" name="linkn" value="linkn">
+                        <input type="hidden" name="fname" value="fname">
+                        <input type="hidden" name="hidSlt" id="hidSlt">
+                        <input type="hidden" name="HiddenField1" id="HiddenField1" value="575862">
+                    </div>
+                </div>
+                <div class="clear20"></div>
+                <div class="row">
+                    <div class="col-sm-5 paddingright0 margin15">
+                        <div class="code">
+                            <input type="text" class="form-control" id="txtCaptcha" name="strCaptcha" placeholder="Enter Captcha" style="font-weight:bold;" />
+                        </div>
+                    </div>
+                    <div class="col-sm-5 col-xs-6">
+                        <div class="captcha">
+                            <img src="~/get-captcha-image" id="imgCap">
+                        </div>
+                    </div>
+                    <div class="col-sm-2  col-xs-6">
+                        <div class="refresh">
+                            <i class="fa fa-refresh" onclick="window.location.reload();"></i>
+                        </div>
+                    </div>
+                    <div class="clear20"></div>
+                    <div class="col-sm-12">
+                        @*<input type="submit" id="btnSubmit" class="pull-left btn-success" value="Login" >*@
+                        <button id="btnSubmit" class="pull-left btn btn-success" style="margin: 0px; width: 125px;">Login</button>
+                        <input name="hidmsg" type="hidden">  <a href="#" class="smltxt pull-right" id="password">Forgot&nbsp;Password ?</a>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="col-sm-12 text-center">
+                        <!-- <input name="hidmsg" type="hidden" id="hidmsg">  <a href="#" class="smltxt forgot">Register</a> -->
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script>
+    $('#txtCaptcha').keypress((e) => {
+
+        // Enter key corresponds to number 13
+        if (e.which === 13) {
+            $('#btnSubmit').click();
+        }
+    });
+    $('#txtuname').keypress((e) => {
+
+        // Enter key corresponds to number 13
+        if (e.which === 13) {
+            $('#btnSubmit').click();
+        }
+    });
+    $('#txtpwd').keypress((e) => {
+
+        // Enter key corresponds to number 13
+        if (e.which === 13) {
+            $('#btnSubmit').click();
+        }
+    });
+    function SubmitsEncry(strCntrol) {
+        var strData = $('#' + strCntrol).val();
+        var key = CryptoJS.enc.Utf8.parse('8080808080808080');
+        var iv = CryptoJS.enc.Utf8.parse('8080808080808080');
+        var encryptedlogin = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(strData), key,
+            {
+                keySize: 128 / 8,
+                iv: iv,
+                mode: CryptoJS.mode.CBC,
+                padding: CryptoJS.pad.Pkcs7
+            });
+        $('#' + strCntrol).val(encryptedlogin);
+    }
+    function checkForm() {
+        var uname = document.getElementById('txtuname').value;
+        var pwd = document.getElementById('txtpwd').value;
+        var captcha = document.getElementById('txtCaptcha').value;
+        if (uname == '') {
+            bootbox.alert("Please enter User Name.");
+            return false;
+        }
+        else if (pwd == '') {
+            bootbox.alert("Please enter Password.");
+            return false;
+        }
+        else if (captcha == '') {
+            bootbox.alert("Please enter captcha.");
+            return false;
+        }
+        else {
+            SubmitsEncry('txtuname');
+
+            SubmitsEncry('txtpwd');
+            return true;
+        }
+    }
+    $("#img-captcha").click(function () {
+        resetCaptchaImage();
+    });
+
+    function resetCaptchaImage() {
+        d = new Date();
+        $("#img-captcha").attr("src", "~/Auth/get-captcha-image?" + d.getTime());
+    }
+    $("#btnSubmit").click(function () {
+        var user = {
+            VCHUSERNAME: $('#txtuname').val(),
+            vchpassword: $('#txtpwd').val(),
+            strCaptcha: $('#txtCaptcha').val()
+        };
+        if (checkForm()) {
+            $.ajax({
+                url:"@Url.Action("Login", "Account")",
+                    //"/Account/Login",
+                data: JSON.stringify(user),
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (res) {
+                    if (res.status == '5') {
+                        bootbox.alert(res.msg, function () { window.location.href = "/Account/Login" });
+                    }
+                    else{
+                        window.location.href = res.url;
+                    }
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+        }
+    });
+</script>
+

@@ -1,0 +1,9 @@
+D:\Projects\WFEWorkFlowEngine2023\WorkFlowEngine.IRepository\bin\Debug\WorkFlowEngine.IRepository.dll
+D:\Projects\WFEWorkFlowEngine2023\WorkFlowEngine.IRepository\bin\Debug\WorkFlowEngine.IRepository.pdb
+D:\Projects\WFEWorkFlowEngine2023\WorkFlowEngine.IRepository\bin\Debug\WorkFlowEngine.Domain.dll
+D:\Projects\WFEWorkFlowEngine2023\WorkFlowEngine.IRepository\bin\Debug\WorkFlowEngine.Domain.pdb
+D:\Projects\WFEWorkFlowEngine2023\WorkFlowEngine.IRepository\obj\Debug\WorkFlowEngine.IRepository.csproj.AssemblyReference.cache
+D:\Projects\WFEWorkFlowEngine2023\WorkFlowEngine.IRepository\obj\Debug\WorkFlowEngine.IRepository.csproj.CoreCompileInputs.cache
+D:\Projects\WFEWorkFlowEngine2023\WorkFlowEngine.IRepository\obj\Debug\WorkFlowEngine.IRepository.csproj.CopyComplete
+D:\Projects\WFEWorkFlowEngine2023\WorkFlowEngine.IRepository\obj\Debug\WorkFlowEngine.IRepository.dll
+D:\Projects\WFEWorkFlowEngine2023\WorkFlowEngine.IRepository\obj\Debug\WorkFlowEngine.IRepository.pdb

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Planning and convergence Department:: Government of odisha</title>
+      <meta name="keywords" content="ADSYS" />
+      <meta name="description" content="ADSYS" />
+      <link rel="shortcut icon" href="#" type="image/x-icon">
+      <link href="css/bootstrap.min.css" rel="stylesheet">
+      <link href="css/icons.css" rel="stylesheet">
+      <link href="css/font-awesome.min.css" rel="stylesheet">
+      <link href="css/custom.css" rel="stylesheet">
+      <link href="css/slimscrollbar.min.css" rel="stylesheet">
+      <script src="js/jquery-3.3.1.min.js"></script>
+      <script src="js/popper.min.js"></script> 
+      <script src="js/bootstrap.min.js"></script> 
+   </head>
+   <body>
+      <header>
+         <nav class="navbar">
+            <!-- Navbar brand -->
+            <a class="navbar-brand" href="javascript:void:(0);">
+               <img src="images/Odisha_logo_White.png" alt="Logo">
+               <h1>
+               Planning and convergence Department
+               <small>Government of odisha</small>
+               </h1>
+            </a>
+            <a class="nav-toggle-btn">
+            <span></span>
+            </a>
+            <!-- Collapse button -->
+            <!--   <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#basicExampleNav"
+               aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
+               <span class="icon-menu1"></span> 
+               </button> -->
+            <!-- Collapsible content -->
+            <div class="navbar-collapse justify-content-end collapse" id="basicExampleNav">
+               <!-- Links -->
+               <ul class="navbar-nav">
+                  <!--  <li class="nav-item">
+                     <a class="nav-link" href="<?php echo SITE_PATH; ?>">Home</a>
+                     </li>
+                     -->
+                  <li class="nav-item dropdown">
+                     <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false"><i class="icon-bell1"></i> <span class="nobadge">15</span></a>
+                     <div class="dropdown-menu notifications" aria-labelledby="navbarDropdownMenuLink">
+                        <ul>
+                           <li><a>Meeting Scheduled for you.<span>25-Jun-2019</span></a></li>
+                           <li><a>Meeting Scheduled for you.<span>25-Jun-2019</span></a></li>
+                           <li><a>Meeting Scheduled for you.<span>25-Jun-2019</span></a></li>
+                           <li><a>Meeting Scheduled for you.<span>25-Jun-2019</span></a></li>
+                           <li><a>Meeting Scheduled for you.<span>25-Jun-2019</span></a></li>
+                           <li><a>Meeting Scheduled for you.<span>25-Jun-2019</span></a></li>
+                        </ul>
+                     </div>
+                  </li>
+                  <li class="nav-item">
+                     <a class="nav-link setting-link" href="Javascript:void(0);"><i class="icon-settings1"></i></a>
+                  </li>
+                  <li class="nav-item">
+                     <a class="nav-link logout" href="Javascript:void(0);"><i class="icon-log-out1"></i></a>
+                  </li>
+                  <!-- Dropdown -->
+               </ul>
+               <!-- Links -->
+            </div>
+            <!-- Collapsible content -->
+         </nav>
+         <!--/.Navbar-->
+      </header>
+      <div class="logout-modal">
+         <div class="logou-container text-center">
+            <div class="container">
+               <h3>Do you really want to log out?</h3>
+               <a class="btn btn-mint">Yes</a>
+               <a class="btn btn-danger nologout">No</a>
+            </div>
+         </div>
+      </div>
+      <!--===Page container===--> 
+      <div class="page-container">
+         <!--===Side Menu===--> 
+         <div class="sidemenu">
+            <div class="user-profile">
+               <a class="dropdown-toggle" data-toggle="dropdown">
+               <img src="images/user.png" alt="user"><span>Prabhu Prasad Mishra <small>Consultant</small></span>
+               </a>
+            </div>
+            <div class="clearfix">
+            </div>
+            <nav class="navbar">
+               <div class="navbar-collapse justify-content-end" id="basicExampleNav">
+                  <ul class="navbar-nav">
+                     <li class="nav-item gldashboard">
+                        <a class="nav-link" href="dashboard.html"><i class="icon-airplay"></i><span>Dashboard</span></a>
+                     </li>
+                     <li class="nav-item dropdown glmaster">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                           aria-haspopup="true" aria-expanded="false"><i class="icon-user1"></i><span>Manage Master</span></a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                           <a class="dropdown-item plBlock" href="AddBlock.html">Manage Block</a>
+                           <a class="dropdown-item plsector" href="AddSector.html">Manage Sector</a>
+                           <a class="dropdown-item pldatapoint" href="AddDatapoint.html">Manage Datapoint</a>
+                           <a class="dropdown-item plindicator" href="addIndicator.html">Manage Indicator</a>
+                           <a class="dropdown-item plmapping" href="addIndicatorMapping.html">Manage Indicator Mapping</a>
+                           <a class="dropdown-item pldepartment" href="AddDepartment.html">Manage Department</a>
+                        </div>
+                     </li>
+                     <li class="nav-item dropdown gluser">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                           aria-haspopup="true" aria-expanded="false"><i class="icon-user1"></i><span>Manage User</span></a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                           <a class="dropdown-item" href="">Add User</a>
+                           <a class="dropdown-item" href="">View User</a>
+                        </div>
+                     </li>
+                     <li class="nav-item dropdown gldata">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                           aria-haspopup="true" aria-expanded="false"><i class="icon-user1"></i><span>Manage Data</span></a>
+                           <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                              <a class="dropdown-item plbdodata" href="AddBDOdata.html">Add BDO Data</a>
+                              <a class="dropdown-item plsubmission" href="BDOdatasubmission.html">BDO Data Submission</a>
+                              <a class="dropdown-item pldataappproval" href="collectorDataAppoval.html">Collector Data Appoval</a>
+                              <a class="dropdown-item plindicator" href="collectorDataindicator.html">Collector Data Indicator</a>
+                           </div>
+                     </li>
+                  </ul>
+               </div>
+            </nav>
+         </div>
+         <!--===Side Menu===-->
+         <div class="mainpanel">
+            <div class="section">
+               <div class="page-title">
+                  <div class="title-details">
+                     <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb p-0 mb-0 bg-transparent" id="navigation">
+                        </ol>
+                     </nav>
+                  </div>
+                  
+               </div>
+               <div class="row">
+                  <div class="col-md-12 col-sm-12">
+                     <div class="card">
+                        <div class="card-header">
+                           <ul class="nav nav-tabs nav-fill" role="tablist">
+                              <a class="nav-item nav-link active"  href="addIndicatorMapping.html">Add</a>
+                              <a class="nav-item nav-link "  href="viewIndicatorMapping.html" >View</a>
+                           </ul>
+                           <div class="indicatorslist">
+                              <a  title="" href="javascript:void(0)" id="backIcon" data-toggle="tooltip" data-placement="top" data-original-title="Back"><i class="icon-arrow-left1"></i></a>
+                              <p class="ml-2">(*) Indicates mandatory </p>
+                           </div>
+                        </div>
+                        <!-- BASIC FORM ELEMENTS -->
+                        <!--===================================================-->
+                        <div class="card-body">
+                           <!--Static-->
+                           <div class="form-group row">
+                              <label class="col-12 col-md-2 col-xl-2 control-label" for="demo-email-input">Sector Name<span class="text-danger">*</span></label>
+                              <div class="col-12 col-md-6 col-xl-4">
+                                 
+                                 <select class="form-control">
+                                    <option>---Select---</option>
+                                 </select>
+                               </div>
+                           </div>
+                         
+                           <div class="form-group row">
+                              <label class="col-12 col-md-2 col-xl-2 control-label" for="demo-email-input">Indicator Name <span class="text-danger">*</span></label>
+                              <div class="col-12 col-md-6 col-xl-4">
+                                 <select class="form-control">
+                                    <option>---Select---</option>
+                                 </select>
+                               </div>
+                           </div>
+                          
+                          
+                          
+                           <div class="form-group row pad-ver">
+                              <label class="col-12 col-md-2 col-xl-2 control-label">Datapoint Mapping</label>
+                              <div class="col-12 col-md-6 col-xl-4">
+                                 <div class="checkbox">
+                                    <!-- Inline Checkboxes -->
+                                    <input id="demo-form-inline-checkbox" class="magic-checkbox" type="checkbox" >
+                                    <label for="demo-form-inline-checkbox">Option 1 </label> <br>
+                                    <input id="demo-form-inline-checkbox-2" class="magic-checkbox" type="checkbox">
+                                    <label for="demo-form-inline-checkbox-2">Option 2</label> <br>
+                                    <input id="demo-form-inline-checkbox-3" class="magic-checkbox" type="checkbox">
+                                    <label for="demo-form-inline-checkbox-3">Option 3</label> <br>
+                                  </div>
+                              </div>
+                           </div>
+                           <div class="form-group row">
+                              <label class="col-12 col-md-2 col-xl-2 control-label" for="demo-textarea-input">Formula</label>
+                              <div class="col-12 col-md-6 col-xl-4">
+                                 <textarea id="demo-textarea-input" rows="4" class="form-control" placeholder="Your content here.."></textarea>
+                              </div>
+                           </div>
+                          <div class="form-group row">
+                              <label class="col-12 col-md-2 col-xl-2 control-label"></label>
+                              <div class="col-12 col-md-6 col-xl-4">
+                                 <button class="btn btn-primary mb-1">Submit</button>
+                                 <button class="btn btn-danger mb-1">Cancel</button>
+                              </div>
+                           </div>
+                        </div>
+                        <!--===================================================-->
+                        <!-- END BASIC FORM ELEMENTS -->
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <footer>
+         <p ><small>Copyright 2021 ABP</small> </p>
+      </footer>
+      <div class="setting-box">
+         <div class="profile-details">
+            <a class="setting-close" href="javascript:void(0)"><span class="icon-x1"></span></a>
+            <div class="photo__section">
+               <img src="images/user.png" alt="user">
+               <h4>Prabhu Prasad Mishra <small>Consoltant</small></h4>
+            </div>
+            <div class="change__list">
+               <ul>
+                  <li><a href="#" data-toggle="tooltip" data-placement="top" data-original-title="Profile"><span class="icon-user1"></span></a></li>
+                  <li><a href="#" data-toggle="tooltip" data-placement="top" data-original-title="Change Password"><span class="icon-lock1"></span></a></li>
+                  <li><a href="#" data-toggle="tooltip" data-placement="top" data-original-title="Sign out"><span class="icon-log-out1"></span></a></li>
+               </ul>
+            </div>
+         </div>
+         <div class="theme-customizer">
+            <h4>Menu option</h4>
+            <ul class="menu-option-list">
+               <li>Top menu <label class="switch " id="menu-dark">
+                  <input type="checkbox" id="topmenucheck" class="default">
+                  <span class="slider"></span>
+                  </label>
+               </li>
+               <li>Dark <label class="switch " id="menu-dark">
+                  <input type="checkbox" id="darkcheck" class="default">
+                  <span class="slider"></span>
+                  </label>
+               </li>
+            </ul>
+            <h4>Theme Colors</h4>
+            <ul class="theme-list">
+               <li><a href="javascript:void(0)" id="custom" class="theme-blue active" ></a></li>
+               <li><a href="javascript:void(0)" id="theme-sky" class="theme-sky-blue " ></a></li>
+               <li><a href="javascript:void(0)" id="theme-white" class="theme-white" ></a></li>
+               <li><a href="javascript:void(0)" id="theme-purple" class="theme-purple " ></a></li>
+               <li><a href="javascript:void(0)" id="theme-pink" class="theme-pink " ></a></li>
+               <li><a href="javascript:void(0)" id="theme-orange" class="theme-orange" ></a></li>
+               <li><a href="javascript:void(0)" id="theme-teal" class="theme-teal " ></a></li>
+               <li><a href="javascript:void(0)" id="theme-gray" class="theme-gray " ></a></li>
+            </ul>
+         </div>
+      </div>
+      <link href="css/bootstrap-datepicker.min.css" rel="stylesheet">
+      <script src="js/bootstrap-datepicker.min.js"></script> 
+      <script src="js/slimscrollbar.min.js"></script> 
+      <script src="js/custom.js"></script> 
+      <script>
+         $(document).ready(function () {
+            loadNavigation('addIndicatorMapping', 'glmaster', 'plmapping', 'Add Indicator Mapping', '', 'Add Indicator Mapping');
+         });
+      </script>
+   </body>
+</html>

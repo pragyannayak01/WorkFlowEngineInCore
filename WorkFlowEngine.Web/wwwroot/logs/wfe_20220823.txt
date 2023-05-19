@@ -1,0 +1,7 @@
+2022-08-23 10:46:10.408 +05:30 [ERR] There is already an object named 'Tbl_Test180822_Caption1' in the database.
+2022-08-23 10:50:29.217 +05:30 [ERR] There is already an object named 'Tbl_Test180822_Caption1' in the database.
+2022-08-23 10:53:50.396 +05:30 [ERR] There is already an object named 'Tbl_Test180822_Caption1' in the database.
+2022-08-23 16:46:34.793 +05:30 [ERR] Incorrect syntax near 'Column1'.
+2022-08-23 16:48:02.552 +05:30 [ERR] There is already an object named 'Tbl_Test230822_1_Caption1' in the database.
+2022-08-23 16:53:53.882 +05:30 [ERR] Incorrect syntax near 'Column1'.
+2022-08-23 16:59:33.290 +05:30 [ERR] The connection does not support MultipleActiveResultSets.

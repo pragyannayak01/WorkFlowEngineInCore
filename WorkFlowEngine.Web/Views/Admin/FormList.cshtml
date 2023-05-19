@@ -1,0 +1,55 @@
+﻿
+@{
+    ViewData["Title"] = "FormList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var ListData = ViewBag.FormList as Task<IEnumerable<WorkFlowEngine.Domain.WFEngine.FormModel>>;
+
+}
+
+<div class="page-title">
+    <div class="title-details">
+        @*<h4>Dynamic Forms</h4>*@
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><span class="icon-home1"></span>
+                <li class="breadcrumb-item">Dynamic Form
+                <li class="breadcrumb-item active" aria-current="page"><b>FormList</b>
+            </ol>
+        </nav>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 col-sm-12">
+        <div class="card">
+            <div class="card-header">
+
+            </div>
+
+
+
+            <div class="card-body">
+                <div class="table-responsive">
+                    @if (ListData.Result.ToList().Count == 0)
+                    {
+                        <div>No Record found.</div>
+                    }
+                    else
+                    {
+                        @foreach (var Item in ListData.Result)
+                        {
+                            <a class="nav-link" target="_blank" href="/WFERender/Admin/ViewForm?FormId=@Item.ID&name=@Item.FORMID"><i class="fa fa-list-alt"></i><span>@Item.FORMID</span></a>
+                            <br />
+
+
+
+                        }
+                    }
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+

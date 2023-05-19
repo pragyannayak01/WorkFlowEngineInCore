@@ -1,0 +1,648 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewData["Title"] = "Scheme";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="row">
+    <div class="col-md-12 col-sm-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="form-group row">
+                    <label class="col-12 col-md-2 col-xl-2 control-label" for="demo-email-input">Department<span class="text-danger">*</span></label>
+                    <div class="col-12 col-md-4 col-xl-4">
+                        <span class="colon">:</span>
+                        <select class="form-control" id="ddlDept" asp-items="@(new SelectList(ViewBag.Department, "DEPTID", "DEPTNAME"))" onchange="BindScheme()">
+                            <option value="0">--Select Department--</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="Schemediv" style="display:none;">
+                    <div class="form-group row">
+                        <label class="col-12 col-md-2 col-xl-2 control-label" for="demo-email-input">Form Name<span class="text-danger">*</span></label>
+                        <div class="col-12 col-md-4 col-xl-4">
+                            <span class="colon">:</span>
+                            <input type="hidden" id="hdnsid" value="0" />
+                            <input type="text" id="txtDname" class="form-control" data-bind="value: schemE_NAME" required maxlength="100" style=" background-color: beige; ">
+                        </div>
+                        <label class="col-12 col-md-2 col-xl-2 control-label" for="demo-email-input">Form Type<span class="text-danger">*</span></label>
+                        <div class="col-12 col-md-4 col-xl-4">
+                            <span class="colon">:</span>
+                            <select class="form-control" id="ddlformtype">
+                                <option value="0">--Select Form Type--</option>
+                                <option value="API Type">API Type</option>
+                                <option value="Non-API Type">Non-API Type</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row" id="tbldiv">
+                        <label class="col-6 col-md-2 col-xl-2 control-label" for="demo-email-input">Table Name<span class="text-danger">*</span></label>
+                        <div class="col-12 col-md-4 col-xl-4">
+                            <span class="colon">:</span>
+                            <input type="text" id="txtTname" class="form-control" required maxlength="100" style=" background-color: beige; ">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-12 col-md-2 col-xl-2 control-label" for="demo-email-input">Insert Method Name<span class="text-danger">*</span></label>
+                        <div class="col-12 col-md-4 col-xl-4">
+                            <span class="colon">:</span>
+                            <input type="text" id="txtIname" class="form-control" data-bind="value: inserT_NAME" style="background-color:beige;" maxlength="100" required />
+                            @*<input type="text" id="txtIname" class="form-control" data-bind="value: inserT_NAME" required maxlength="100" style=" background-color: beige; ">*@
+                        </div>
+                        <label class="col-12 col-md-2 col-xl-2 control-label" for="demo-email-input">Update Method Name<span class="text-danger">*</span></label>
+                        <div class="col-12 col-md-4 col-xl-4">
+                            <span class="colon">:</span>
+                            <input type="text" id="txtUname" class="form-control" data-bind="value: updatE_NAME" required maxlength="100" style=" background-color: beige; ">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-12 col-md-2 col-xl-2 control-label" for="demo-email-input">Delete Method Name<span class="text-danger">*</span></label>
+                        <div class="col-12 col-md-4 col-xl-4">
+                            <span class="colon">:</span>
+                            <input type="text" id="txtDename" class="form-control" data-bind="value: deletE_NAME" required maxlength="100" style=" background-color: beige; ">
+                        </div>
+                        <label class="col-12 col-md-2 col-xl-2 control-label" for="demo-email-input">Select Method Name<span class="text-danger">*</span></label>
+                        <div class="col-12 col-md-4 col-xl-4">
+                            <span class="colon">:</span>
+                            <input type="text" id="txtSname" class="form-control" data-bind="value: selecT_NAME" required maxlength="100" style=" background-color: beige; ">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-12 col-md-2 col-xl-2 control-label" for="demo-email-input">Icon</label>
+                        <div class="col-12 col-md-6 col-xl-4">
+                            <span class="colon">:</span>
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="fuUploadPoc">
+                                <label class="custom-file-label" for="customFile" id="fuUploadPocPrev">Choose file</label>
+                            </div>
+
+                            <div class="clearfix"></div>
+                            <div><small class="text-danger">Max file size is 5MB Only svg allowed</small></div>
+                        </div>
+                        <label class="col-12 col-md-2 col-xl-2 control-label" for="demo-email-input">Template<span class="text-danger">*</span></label>
+                        <div class="col-12 col-md-4 col-xl-4">
+                            <span class="colon">:</span>
+                            <select class="form-control" id="ddlTemplate" asp-items="@(new SelectList(ViewBag.Template, "TEMPLATEID", "TEMPLATE_NAME"))">
+                                <option value="0">--Select Template--</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-12 col-md-2 col-xl-2 control-label" for="demo-email-input">Script File</label>
+                        <div class="col-12 col-md-6 col-xl-4">
+                            <span class="colon">:</span>
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="fuUploadPocjs">
+                                <label class="custom-file-label" for="customFile" id="fuUploadPocPrevjs">Choose file</label>
+                            </div>
+
+                            <div class="clearfix"></div>
+                            <div><small class="text-danger">Max file size is 5MB Only .JS allowed</small></div>
+                        </div>
+                        <label class="col-12 col-md-2 col-xl-2 control-label" for="demo-email-input">View Details<span class="text-danger">*</span></label>
+                        <div class="col-12 col-md-4 col-xl-4">
+                            <span class="colon">:</span>
+                            <select class="form-control" id="ddlprint">
+                                <option value="0">--Select--</option>
+                                <option value="Page">Page</option>
+                                <option value="Pop Up">Pop Up</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-12 col-md-2 col-xl-2 control-label"></label>
+                        <div class="col-12 col-md-6 col-xl-4">
+                            <button id="BtnSend" onclick="AddScheme()" class="btn btn-success">Add Form</button>
+                            <button id="BtnReset" onclick="ClearScheme()" class="btn btn-danger">Reset</button>
+                        </div>
+                    </div>
+                    <table id="example" cellspacing="0" class="table table-bordered mt-4">
+                        <thead>
+                            <tr>
+                                <th scope="col" width="50px">SL#</th>
+                                <th scope="col" width="600px">Form Name</th>
+                                <th scope="col" width="200px">Table Name</th>
+                                <th scope="col" width="200px">Insert Method Name</th>
+                                <th scope="col" width="200px">Update Method Name</th>
+                                <th scope="col" width="200px">Delete Method Name</th>
+                                <th scope="col" width="200px">Select Method Name</th>
+                                <th scope="col" width="50px">Icon</th>
+                                <th scope="col" width="200px">Template</th>
+                                <th scope="col" width="200px">Form Type</th>
+                                <th scope="col" width="200px">Script File</th>
+                                <th scope="col" width="200px">View Details</th>
+                                <th scope="col" width="200px">Create Form</th>
+                                <th scope="col" width="100px">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbltbody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function BindScheme() {
+        //document.getElementById("Schemediv").style.visibility = "visible";
+
+        if ($("#ddlDept").val() == 0) {
+            $("#Schemediv").hide();
+        }
+        else {
+             $("#Schemediv").show();
+        }
+       var data = {
+            Deptid: $("#ddlDept").val()
+       };
+
+       $.ajax({
+            type: "POST",
+            url: '@Url.Action("GetSchemesWithForm", "Admin")',
+            content: "application/json; charset=utf-8",
+            dataType: "json",
+            data: data,
+            success: function (response) {
+
+                //var obj = jQuery.parseJSON(response);
+                document.getElementById("tbltbody").innerHTML = "";
+                var tbody = document.getElementById("tbltbody");
+
+                if (response.length > 0) {
+                    for (var i = 0; i < response.length; i++) {
+                        var tr = document.createElement('tr');
+                        if (response[i].scripT_FILE == null || response[i].scripT_FILE == "") {
+                            scriptFileName = '';
+                        }
+                        else {
+                            scriptFileName = '<i class="fa-solid fa-file"></i>';
+                        }
+                        if (response[i].dfid != 0) {
+                            tr.innerHTML = "<td>" + (parseInt(i) + 1) + "</td>" +
+                                "<td>" + response[i].schemE_NAME + "</td>" +
+                                "<td>" + response[i].tablE_NAME + "</td>" +
+                                "<td>" + response[i].inserT_NAME + "</td>" +
+                                "<td>" + response[i].updatE_NAME + "</td>" +
+                                "<td>" + response[i].deletE_NAME + "</td>" +
+                                "<td>" + response[i].selecT_NAME + "</td>" +
+                                "<td><a href='/SchemeDocuments/" + response[i].goaL_IMAGE +"' target='_blank'> <img id='Pimg' src='/SchemeDocuments/"+response[i].goaL_IMAGE+"' height='50px' width='50px' /></a>"+
+                                " </td>" +
+                                "<td>" + response[i].templateid + "</td>" +
+                                "<td>" + response[i].formtype + "</td>" +
+                                "<td>" + scriptFileName + "</td>" +
+                                "<td>" + response[i].printconfig + "</td>" +
+                                "<td><a class='btn btn-sm btn-outline-success' target='_blank' href='/Admin/NewFormCreator?id=" + response[i].dfid + "&name=" + response[i].formid + "'>Go To Form</a></td>" +
+                                "<td><a class='btn btn-primary btn-sm' data-toggle='tooltip' title='' data-original-title='Edit'><i class='icon-edit1' onclick = 'EditScheme(" + response[i].id + "," + response[i].templateid + ",\"" + response[i].schemE_NAME + "\",\"" + response[i].inserT_NAME + "\",\"" + response[i].updatE_NAME + "\",\"" + response[i].deletE_NAME + "\",\"" + response[i].selecT_NAME + "\",\"" + response[i].tablE_NAME + "\",\"" + response[i].formtype + "\",\"" + response[i].printconfig + "\")'></i></a>" +
+                                "<a class='btn btn-danger btn-sm' data-toggle='tooltip' title='' data-original-title='Delete'><i class='icon-trash-21' onclick='DeleteScheme(" + response[i].id + ")'></i></a></td>" +
+                                "</tr>";
+                        }
+                        else {
+                            tr.innerHTML = "<td>" + (parseInt(i) + 1) + "</td>" +
+                                "<td>" + response[i].schemE_NAME + "</td>" +
+                                "<td>" + response[i].tablE_NAME + "</td>" +
+                                "<td>" + response[i].inserT_NAME + "</td>" +
+                                "<td>" + response[i].updatE_NAME + "</td>" +
+                                "<td>" + response[i].deletE_NAME + "</td>" +
+                                "<td>" + response[i].selecT_NAME + "</td>" +
+                                "<td><a href='/SchemeDocuments/"+response[i].goaL_IMAGE+"' target='_blank'> <img id='Pimg' src='/SchemeDocuments/"+response[i].goaL_IMAGE+"' height='50px' width='50px' /></a>"+
+                                " </td>" +
+                                "<td>" + response[i].templateid + "</td>" +
+                                "<td>" + response[i].formtype + "</td>" +
+                                "<td>" + scriptFileName + "</td>" +
+                                "<td>" + response[i].printconfig + "</td>" +
+                                "<td><a class='btn btn-outline-primary' target='_blank' href='/Admin/AddNewForm?suggestedname=" + response[i].schemE_NAME + "&schemeId=" + response[i].id + "'>Create Form</a></td>" +
+                                "<td><a class='btn btn-sm btn-primary btn-sm' data-toggle='tooltip' title='' data-original-title='Edit'><i class='icon-edit1' onclick = 'EditScheme(" + response[i].id + "," + response[i].templateid + ",\"" + response[i].schemE_NAME + "\",\"" + response[i].inserT_NAME + "\",\"" + response[i].updatE_NAME + "\",\"" + response[i].deletE_NAME + "\",\"" + response[i].selecT_NAME + "\",\"" + response[i].tablE_NAME + "\",\"" + response[i].formtype + "\",\"" + response[i].printconfig + "\")'></i></a> " +
+                                "<a class='btn btn-danger btn-sm' data-toggle='tooltip' title='' data-original-title='Delete'><i class='icon-trash-21' onclick='DeleteScheme(" + response[i].id + ")'></i></a></td>" +
+                                "</tr>";
+                        }
+                        tbody.append(tr);
+                    }
+
+                    //document.getElementById("Schemediv").visible = true;
+                }
+                else {
+                    var tr = document.createElement('tr');
+                    tr.innerHTML = "<td colspan='5'>No Record Found.</td>";
+                    tbody.append(tr);
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                // TODO: Show error
+
+            }
+       });
+    }
+    $('#ddlformtype').on('change', function (e) {
+        if ($('#ddlformtype').val() == "API Type") {
+            document.getElementById("tbldiv").style.display = "none";
+        }
+        else {
+            document.getElementById("tbldiv").style.display = "";
+        }
+    });
+    $('#fuUploadPoc').on('change', function (e) {
+    var file = $('#fuUploadPoc')[0].files[0].name;
+    $('#fuUploadPocPrev').text(file);
+    if (!ValidateFile('fuUploadPoc', 'Valid Document')) {
+        return false;
+    };
+    if (!CheckFileType('fuUploadPoc', '2')) {
+        return false;
+    };
+    });
+    $('#fuUploadPocjs').on('change', function (e) {
+        var file = $('#fuUploadPocjs')[0].files[0].name;
+        $('#fuUploadPocPrevjs').text(file);
+        if (!ValidateFile('fuUploadPocjs', 'Valid Document')) {
+            return false;
+        };
+        if (!CheckFileType('fuUploadPocjs', '4')) {
+            return false;
+        };
+    });
+    function ValidateFile(cntr, strText) {
+        var strValue = $('#' + cntr).get(0).files.length;
+        if (strValue == "0") {
+            bootbox.alert("Please upload " + strText);
+            $('#fuUploadPocPrev').text("Choose File");
+            return false;
+        }
+        else
+            return true;
+    }
+    function CheckFileType(cntr, ftype) {
+    var userImg = '@Url.Content("~/imgs/no_user.png")';
+    // Get the file upload control file extension
+    var extn = $('#' + cntr).val().split('.').pop().toLowerCase();
+    if (extn != '') {
+
+        // Create array with the files extensions to upload
+        var fileListToUpload;
+        if (parseInt(ftype) == 1)
+            fileListToUpload = new Array('pdf', 'jpg', 'jpeg');
+        else if (parseInt(ftype) == 2)
+            fileListToUpload = new Array('svg');
+        else if (parseInt(ftype) == 3)
+            fileListToUpload = new Array('pdf');
+        else if (parseInt(ftype) == 4)
+            fileListToUpload = new Array('js');
+        else
+            fileListToUpload = new Array('ts');
+
+        //Check the file extension is in the array.
+        var isValidFile = $.inArray(extn, fileListToUpload);
+
+        // isValidFile gets the value -1 if the file extension is not in the list.
+        if (isValidFile == -1) {
+            if (parseInt(ftype) == 1) {
+                bootbox.alert('Please upload a valid document of type pdf/jpg/jpeg!!!');
+                $('#' + cntr).replaceWith($('#' + cntr).val('').clone(true));
+                $('#' + cntr).focus();
+            }
+            else if (parseInt(ftype) == 2) {
+                bootbox.alert('Please upload a valid svg document.!!!');
+                $('#fuUploadPocPrev').text("Choose file");
+                $('#showPhoto').attr('src', userImg);
+                $('#' + cntr).replaceWith($('#' + cntr).val('').clone(true));
+                $('#' + cntr).focus()
+            }
+            else if (parseInt(ftype) == 3) {
+                bootbox.alert("<strong>Please upload a valid pdf file</strong>");
+                $('#fuUploadPocPrev').text("Choose File");
+                $('#' + cntr).replaceWith($('#' + cntr).val('').clone(true));
+                $('#' + cntr).focus();
+            }
+            else if (parseInt(ftype) == 4) {
+                bootbox.alert("<strong>Please upload a valid js file</strong>");
+                $('#fuUploadPocPrevjs').text("Choose File");
+                $('#' + cntr).replaceWith($('#' + cntr).val('').clone(true));
+                $('#' + cntr).focus();
+            }
+            else {
+                bootbox.alert('Please Upload a valid document !!!');
+                $('#' + cntr).replaceWith($('#' + cntr).val('').clone(true));
+                $('label[id*="' + cntr + '"]').text('');
+                $('#' + cntr).focus();
+            }
+        }
+        else {
+            // Restrict the file size to 2MB(1024 * 5120;)
+            if (parseInt(ftype) == 4) {
+                if ($('#' + cntr).get(0).files[0].size > (5242880)) {
+                    bootbox.alert("<strong>Proceeding file size should not exceed 5MB.!!!</strong>");
+                    $('#fuUploadPocPrevjs').text("Choose File");
+                    $('#' + cntr).replaceWith($('#' + cntr).val('').clone(true));
+                    $('#' + cntr).focus();
+                }
+                if ($('#' + cntr).get(0).files[0].name.length > 100) {
+                    bootbox.alert("<strong>Proceeding file Name should be maximum 100 Characters!</strong>");
+                    $('#fuUploadPocPrevjs').text("Choose File");
+                    $('#' + cntr).replaceWith($('#' + cntr).val('').clone(true));
+                    $('label[id*="' + cntr + '"]').text('');
+                    $('#' + cntr).focus();
+                }
+                else
+                    return true;
+            }
+            else {
+                if ($('#' + cntr).get(0).files[0].size > (5242880)) {
+                    bootbox.alert("<strong>Proceeding file size should not exceed 5MB.!!!</strong>");
+                    $('#fuUploadPocPrev').text("Choose File");
+                    $('#' + cntr).replaceWith($('#' + cntr).val('').clone(true));
+                    $('#' + cntr).focus();
+                }
+                if ($('#' + cntr).get(0).files[0].name.length > 100) {
+                    bootbox.alert("<strong>Proceeding file Name should be maximum 100 Characters!</strong>");
+                    $('#fuUploadPocPrev').text("Choose File");
+                    $('#' + cntr).replaceWith($('#' + cntr).val('').clone(true));
+                    $('label[id*="' + cntr + '"]').text('');
+                    $('#' + cntr).focus();
+                }
+                else
+                    return true;
+            }
+
+        }
+    }
+    else
+        return true;
+}
+    function AddScheme() {
+        if ($('#ddlDept').val() == "") {
+            bootbox.alert("Please Select Department!");
+            $('#ddlDept').focus();
+            return false;
+        }
+        else if ($('#txtDname').val() == "") {
+            bootbox.alert("Please enter Form Name!");
+            return false;
+            $('#txtDname').focus();
+        }
+        else if ($('#txtIname').val() == "") {
+            bootbox.alert("Please enter Insert Method Name!");
+            return false;
+            $('#txtIname').focus();
+        }
+        else if ($('#ddlTemplate').val() == "0") {
+            bootbox.alert("Please choose Template!");
+            return false;
+            $('#ddlTemplate').focus();
+        }
+        else if ($('#txtUname').val() == "") {
+            bootbox.alert("Please enter Update Method Name!");
+            return false;
+            $('#txtUname').focus();
+        }
+        else if ($('#ddlformtype').val() == "0") {
+            bootbox.alert("Please choose Form Type!");
+            return false;
+            $('#ddlTemplate').focus();
+        }
+        else if ($('#txtDename').val() == "") {
+            bootbox.alert("Please enter Delete Method Name!");
+            return false;
+            $('#txtDename').focus();
+        }
+        else if ($('#ddlprint').val() == "0") {
+            bootbox.alert("Please choose Print config!");
+            return false;
+            $('#ddlTemplate').focus();
+        }
+        else if ($('#txtSname').val() == "") {
+            bootbox.alert("Please enter Select Method Name!");
+            return false;
+            $('#txtSname').focus();
+        }
+        if ($('#ddlformtype').val() != "API Type") {
+            if ($('#txtTname').val() == "") {
+                bootbox.alert("Please enter Table Name!");
+                return false;
+                $('#txtTname').focus();
+            }
+            else {
+                SubmitData();
+            }
+        }
+            else {
+            SubmitData();
+                 }
+    }
+    function SubmitData() {
+         var fileData = new FormData(); //Creating FormData Object to fill the values entered by the  user for insert into the database
+                fileData.append("ID", $("#hdnsid").val());
+                fileData.append("DEPTID", $("#ddlDept").val());
+        fileData.append("SCHEME_NAME", $("#txtDname").val());
+        fileData.append("INSERT_NAME", $("#txtIname").val());
+        fileData.append("UPDATE_NAME", $("#txtUname").val());
+        fileData.append("DELETE_NAME", $("#txtDename").val());
+        fileData.append("SELECT_NAME", $("#txtSname").val());
+            fileData.append("TEMPLATEID", $("#ddlTemplate").val());
+        fileData.append("FORMTYPE", $("#ddlformtype").val());
+        fileData.append("PRINTCONFIG", $("#ddlprint").val());
+            fileData.append("TABLE_NAME", $("#txtTname").val());
+                    if (window.FormData !== undefined) {
+                        var fileUpload = $("#fuUploadPoc").get(0);
+
+                        var files = fileUpload.files;
+                        if (files.length > 0) {
+                            for (var i = 0; i < files.length; i++) {
+                                fileData.append(files[i].name, files[i]);
+                            }
+                        }
+                        else {
+                            fileData.append("GOAL_IMAGE", $('#fuUploadPocPrev')[0].innerText);
+                        }
+                        var fileUploadjs = $("#fuUploadPocjs").get(0);
+
+                        var jsFiles = fileUploadjs.files;
+                        if (jsFiles.length > 0) {
+                            for (var i = 0; i < jsFiles.length; i++) {
+                                fileData.append(jsFiles[i].name, jsFiles[i]);
+                            }
+                        }
+                        else {
+                            fileData.append("SCRIPT_FILE", $('#fuUploadPocPrevjs')[0].innerText);
+                        }
+                    }
+
+                    $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("UpdateSchemeName", "Admin")',
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("XSRF-TOKEN",
+                            $('input:hidden[name="__RequestVerificationToken"]').val());
+                    },
+                    data: fileData,
+                    contentType: false, // Not to set any content header
+                    processData: false, // Not to process data
+                    success: function (data) {
+                        if (data.status == 1) {
+                            bootbox.alert("Form Inserted Successfully.");
+                            BindScheme();
+                            document.getElementById("txtDname").value = "";
+                            document.getElementById("txtTname").value = "";
+                            document.getElementById("txtIname").value = "";
+                            document.getElementById("txtUname").value = "";
+                            document.getElementById("txtDename").value = "";
+                            document.getElementById("txtSname").value = "";
+                            document.getElementById("ddlformtype").value = "0";
+                            document.getElementById("ddlTemplate").value = "0";
+                            document.getElementById("ddlprint").value = "0";
+                            $('#fuUploadPocPrev').text('Choose file');
+                                //vm.GetSchemes(vm.selectedDep().deptid());
+                        }
+                        if (data.status == 4) {
+                            bootbox.alert("Form Already Exists!!.");
+                            BindScheme();
+                            document.getElementById("txtDname").value = "";
+                            document.getElementById("txtTname").value = "";
+                            document.getElementById("txtIname").value = "";
+                            document.getElementById("txtUname").value = "";
+                            document.getElementById("txtDename").value = "";
+                            document.getElementById("txtSname").value = "";
+                            document.getElementById("ddlformtype").value = "0";
+                            document.getElementById("ddlTemplate").value = "0";
+                            document.getElementById("ddlprint").value = "0";
+                            $('#fuUploadPocPrev').text('Choose file');
+                            //vm.GetSchemes(vm.selectedDep().deptid());
+                        }
+                        else if (data.status == 5) {
+                            bootbox.alert("Insert Method Name Already Exists!!.");
+                            //$("#txtIname").focus();
+
+                            $('.bootbox').on('hidden.bs.modal', function () {
+                                $('#txtIname').focus();
+                            });
+                            BindScheme();
+                            //document.getElementById("txtIname").value = "";
+                            //document.getElementById("txtIname").focus();
+                        }
+                        else if (data.status == 6) {
+                            bootbox.alert("Update Method Name Already Exists!!.");
+                            BindScheme();
+                            $('.bootbox').on('hidden.bs.modal', function () {
+                                $('#txtUname').focus();
+                            });
+                            //$("#txtUname").focus();
+
+                            //document.getElementById("txtUname").value = "";
+                            //document.getElementById("txtUname").focus();
+                        }
+                        else if (data.status == 7) {
+                            bootbox.alert("Delete Method Name Already Exists!!.");
+                            BindScheme();
+                            $('.bootbox').on('hidden.bs.modal', function () {
+                                $('#txtDename').focus();
+                            });
+                            //$("#txtDename").focus();
+
+                        //    document.getElementById("txtDename").value = "";
+                        //    document.getElementById("txtDename").focus();
+                        }
+                        else if (data.status == 8) {
+                            bootbox.alert("Select Method Name Already Exists!!.");
+                            BindScheme();
+                            $('.bootbox').on('hidden.bs.modal', function () {
+                                $('#txtSname').focus();
+                            });
+                            //$("#txtSname").focus();
+
+                            //document.getElementById("txtSname").value = "";
+                            //document.getElementById("txtSname").focus();
+                        }
+                        else if (data.status == 2) {
+                            bootbox.alert("Form Updated Successfully.");
+                            document.getElementById("BtnSend").innerText = "Add scheme";
+                            BindScheme();
+                            document.getElementById("txtDname").value = "";
+                            document.getElementById("txtTname").value = "";
+                            document.getElementById("txtIname").value = "";
+                            document.getElementById("txtUname").value = "";
+                            document.getElementById("txtDename").value = "";
+                            document.getElementById("txtSname").value = "";
+                            document.getElementById("ddlformtype").value = "0";
+                            document.getElementById("ddlTemplate").value = "0";
+                            document.getElementById("ddlprint").value = "0";
+                            $('#fuUploadPocPrev').text('Choose file');
+                            document.getElementById("hdnsid").value = "0";
+                                //vm.GetSchemes(vm.selectedDep().deptid());
+                        }
+                        else if (data.status == 3) {
+                            bootbox.alert(data.msg);
+                            return false;
+                            //document.getElementById("BtnSend").innerText = "Add scheme";
+                            BindScheme();
+                            document.getElementById("txtDname").value = "";
+                                //vm.GetSchemes(vm.selectedDep().deptid());
+                        }
+                        //BindScheme();
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        // TODO: Show error
+
+                    }
+                });
+    }
+    function DeleteScheme(id) {
+       var data = {
+        id: id
+        };
+         var r = confirm("Are you sure , you want to delete ?");
+        if (r === true) {
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("DeleteScehem", "Admin")',
+                content: "application/json; charset=utf-8",
+                dataType: "json",
+                data: data,
+                success: function (response) {
+
+                    if (response.successid == 0) {
+                        alert(response.msg);
+
+                    } else if (response.successid == 1) {
+                        bootbox.alert("Form deleted successfully.");
+                         BindScheme();
+                    }
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    // TODO: Show error
+
+                }
+            });
+        }
+    }
+    function EditScheme(id,templateid, sname,Iname,Uname,Dname,Sename,Tname,Ftype,PrintConfig) {
+        document.getElementById("BtnSend").innerText = "Update scheme";
+        document.getElementById("hdnsid").value = id;
+        document.getElementById("txtDname").value = sname;
+        document.getElementById("txtTname").value = Tname;
+        document.getElementById("txtIname").value = Iname;
+        document.getElementById("txtUname").value = Uname;
+        document.getElementById("txtDename").value = Dname;
+        document.getElementById("txtSname").value = Sename;
+        document.getElementById("ddlformtype").value = Ftype;
+        document.getElementById("ddlprint").value = PrintConfig;
+        $("#ddlTemplate").val(templateid);
+    }
+    function ClearScheme() {
+        document.getElementById("hdnsid").value = "0";
+        document.getElementById("txtDname").value = "";
+        document.getElementById("txtTname").value = "";
+        document.getElementById("txtIname").value = "";
+        document.getElementById("txtUname").value = "";
+        document.getElementById("txtDename").value = "";
+        document.getElementById("txtSname").value = "";
+        document.getElementById("ddlformtype").value = "0";
+        document.getElementById("ddlprint").value = "0";
+        document.getElementById("ddlTemplate").value = "0";
+        $('#fuUploadPocPrev').text('Choose file');
+        $("#ddlDept").val("0");
+    }
+</script>
+

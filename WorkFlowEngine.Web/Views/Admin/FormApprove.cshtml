@@ -1,0 +1,112 @@
+﻿@model WorkFlowEngine.Domain.WFEngine.FormModel;
+@{
+    ViewData["Title"] = "FormApprove";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var ListData = ViewBag.FormList as Task<IEnumerable<WorkFlowEngine.Domain.WFEngine.FormModel>>;
+}
+
+
+<div class="page-title">
+    <div class="title-details">
+        @*<h4>Dynamic Forms</h4>*@
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><span class="icon-home1"></span></li>
+                <li class="breadcrumb-item">Dynamic Form</li>
+                <li class="breadcrumb-item active" aria-current="page"><b>Approved Form</b></li>
+            </ol>
+        </nav>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 col-sm-12">
+        <div class="card">
+            <div class="card-header">
+                <ul class="nav nav-tabs nav-fill" role="tablist">
+                    <a asp-area="" asp-controller="Admin" asp-action="PendingForm" class="nav-item nav-link ">Pending Form</a>
+                    <a asp-area="" asp-controller="Admin" asp-action="FormApprove" class="nav-item nav-link active">Approved Form</a>
+                    <a asp-area="" asp-controller="Admin" asp-action="RejectForm" class="nav-item nav-link ">Rejected Form</a>
+                    <a asp-area="" asp-controller="Admin" asp-action="ConfigView" class="nav-item nav-link ">Config View</a>
+                    <a asp-area="" asp-controller="Admin" asp-action="ConfigConstraint" class="nav-item nav-link">Config Constraint</a>
+                </ul>
+
+            </div>
+
+            <div class="search-container">
+                <div class="search-sec">
+                    <form asp-controller="Admin" asp-action="FormApprove" asp-antiforgery="true" method="post">
+
+                        <div class="row">
+                            <div class="form-group col-md-3">
+                                <label class="control-label">Department</label>
+                                <select class="form-control" asp-for="DEPTID" asp-items="@(new SelectList(ViewBag.Department, "DEPTID", "DEPTNAME",ViewBag.DeptId))">
+                                    <option value="0">--Select Department--</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label class="control-label d-block">&nbsp;</label>
+                                <input type="submit" class="btn btn-primary" value="Search" />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="text-center"> <a class="searchopen" title="Search" data-toggle="tooltip" data-placement="bottom"> <i class="fa fa-plus"></i> </a></div>
+            </div>
+
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="example" cellspacing="0" class="table">
+                        <thead>
+                            <tr>
+                                <th width="35px">Sl#</th>
+                                <th>Department</th>
+                                @*<th>Scheme</th>*@
+                                <th>Form Name</th>
+                                <th width="50px">Preview</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{ int count = 1;}
+                            @if (ListData.Result.ToList().Count == 0)
+                            {
+                                <tr>
+                                    <td colspan="5">No Record found.</td>
+                                </tr>
+                            }
+                            else
+                            {
+                                @foreach (var Item in ListData.Result)
+                                {
+                                    <tr>
+                                        <td>@count</td>
+                                        <td>@Item.DEPTNAME</td>
+                                        @*<td>@Item.SCHEME_NAME</td>*@
+                                        <td>@Item.FORMID</td>
+                                        <td style="width:20%;">
+                                            <a class="btn btn-success btn-sm" data-toggle="tooltip" title="" data-original-title="Edit" href="/WFERender/Admin/ViewForm?FormId=@Item.ID&name=@Item.FORMID&Vtype=E" target="_blank"><i class="fa fa-eye"></i></a>
+                                        </td>
+
+                                    </tr>
+                                    count = count + 1;
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        if ($('#example')[0].rows[1].innerText != "No Record found.") {
+            $('#example').DataTable({
+                searching: false,
+                "bStateSave": true
+            });
+        }
+    });
+</script>
+

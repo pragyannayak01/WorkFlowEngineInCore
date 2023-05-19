@@ -1,0 +1,192 @@
+﻿
+@{
+    ViewData["Title"] = "ConfigConstraint";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-title">
+    <div class="title-details">
+        @*<h4>Dynamic Forms</h4>*@
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><span class="icon-home1"></span></li>
+                <li class="breadcrumb-item">Dynamic Form</li>
+                <li class="breadcrumb-item active" aria-current="page"><b>Config Constraint</b></li>
+            </ol>
+        </nav>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 col-sm-12">
+        <div class="card">
+            <div class="card-header">
+                <ul class="nav nav-tabs nav-fill" role="tablist">
+                    <a asp-area="" asp-controller="Admin" asp-action="PendingForm" class="nav-item nav-link ">Pending Form</a>
+                    <a asp-area="" asp-controller="Admin" asp-action="FormApprove" class="nav-item nav-link ">Approved Form</a>
+                    <a asp-area="" asp-controller="Admin" asp-action="RejectForm" class="nav-item nav-link ">Rejected Form</a>
+                    <a asp-area="" asp-controller="Admin" asp-action="ConfigView" class="nav-item nav-link ">Config View</a>
+                    <a asp-area="" asp-controller="Admin" asp-action="ConfigConstraint" class="nav-item nav-link active">Config Constraint</a>
+                </ul>
+
+            </div>
+            <div class="card-body">
+                <div class="form-group row">
+                    <label class="col-12 col-md-2 col-xl-2 control-label" for="demo-email-input">Form Name<span class="text-danger">*</span></label>
+                    <div class="col-12 col-md-4 col-xl-4">
+                        <span class="colon">:</span>
+                        <select class="form-control" id="ddlForm" asp-items="@(new SelectList(ViewBag.FormName, "ID", "FORMID"))" onchange="BindColumnData()">
+                            <option value="0">--Select Form Name--</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="Formdiv" style="display:none;">
+
+                    <table id="example" cellspacing="0" class="table table-bordered mt-4">
+                        <thead>
+                            <tr>
+                                <th scope="col" width="50px"></th>
+                                <th scope="col" style="display:none;"></th>
+                                <th scope="col">Column Name</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbltbody">
+                        </tbody>
+                    </table>
+                    <div class="form-group row">
+                        <label class="col-12 col-md-2 col-xl-2 control-label"></label>
+                        <div class="col-12 col-md-6 col-xl-4">
+                            <button id="BtnSend" class="btn btn-success">Submit</button>
+                            <button id="BtnReset" onclick="ClearScheme()" class="btn btn-danger">Reset</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function BindColumnData() {
+
+         if ($("#ddlForm").val() == 0) {
+             $("#Formdiv").hide();
+        }
+        else {
+             $("#Formdiv").show();
+        }
+       var data = {
+           Formid: $("#ddlForm").val()
+       };
+
+       $.ajax({
+            type: "POST",
+            url: '@Url.Action("GetFormConstraintData", "Admin")',
+            content: "application/json; charset=utf-8",
+            dataType: "json",
+            data: data,
+            success: function (response) {
+
+                //var obj = jQuery.parseJSON(response);
+                document.getElementById("tbltbody").innerHTML = "";
+                var tbody = document.getElementById("tbltbody");
+
+                if (response.length > 0) {
+                    for (var i = 0; i < response.length; i++) {
+                        var data = "";
+                        var tr = document.createElement('tr');
+                        if (response[i].col_Cnt == 0) {
+                            data = "<input type='checkbox' id='chk_" + i + "' name='chk_" + i + "' value='Bike'><label for='chk_" + i + "'> </label>";
+                        }
+                        else {
+                            data = "<input type='checkbox' id='chk_" + i + "' name='chk_" + i + "' value='Bike' checked='checked'><label for='chk_" + i + "'> </label>";
+                        }
+                        tr.innerHTML = "<td>" + data+"</td>" +
+                            "<td style='display: none;'>" + response[i].int_id + "</td>" +
+                                "<td>" + response[i].pvch_label_name + "</td>" +
+                                "</tr>";
+
+                        tbody.append(tr);
+                    }
+                }
+                else {
+                    var tr = document.createElement('tr');
+                    tr.innerHTML = "<td colspan='5'>No Record Found.</td>";
+                    tbody.append(tr);
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                // TODO: Show error
+
+            }
+       });
+    }
+     //Validation on Submit Code Begin
+    function validateColumn() {
+       var rowcount = 0;
+        if ($('#ddlForm').val() == "") {
+            bootbox.alert("Please Select Form Name!");
+           return false;
+       }
+       else {
+               return true;
+       }
+    }
+
+    $('#BtnSend').click(function () {
+        if (validateColumn()) {
+        bootbox.confirm({
+            size: "medium",
+            message: "Are you sure , you want to Submit?",
+            callback: function (result) {
+                if (result === true) {
+                    var linkDetails = new Array();
+                    var fileData = new FormData();
+
+                    $('#example tbody tr').each(function (index) {
+                            var linkDetail = {};
+                            if ($(this).find("td").eq(0).find(":checkbox")[0].checked == true) {
+                                linkDetail.ConfigControlId = $(this).find("td").eq(1)[0].innerText;
+                            }
+                            linkDetails.push(linkDetail);
+                        });
+
+                    fileData.append("FormId", $("#ddlForm").val());
+                    fileData.append("Elements", JSON.stringify(linkDetails));
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("SaveFormConstraintData", "Admin")",
+                        beforeSend: function (xhr) {
+                            xhr.setRequestHeader("XSRF-TOKEN",
+                                $('input:hidden[name="__RequestVerificationToken"]').val());
+                        },
+                        data: fileData,
+                        contentType: false, // Not to set any content header
+                        processData: false, // Not to process data
+                        success: function (res) {
+                             if (res == '1') {
+                                bootbox.alert("Data Saved Successfully", function () {
+                                    window.location.href = "/Admin/FormApprove?Glink=" + decodeURI(getUrlVars()["Glink"]) + "&Plink=" + decodeURI(getUrlVars()["Plink"]);
+                                });
+                            }
+                            else if (res == '2') {
+                                bootbox.alert("Data Updated Successfully", function () {
+                                    window.location.href = "/Admin/FormApprove?Glink=" + decodeURI(getUrlVars()["Glink"]) + "&Plink=" + decodeURI(getUrlVars()["Plink"]);
+                                });
+                            }
+                            else {
+                                bootbox.alert(res);
+                                return false;
+                            }
+                        },
+                        failure: function (response) {
+                            console.log(response.responseText);
+                        },
+                        error: function (response) {
+                            console.log(response.responseText);
+                        }
+                    });
+                }
+            }
+        });
+    }
+    });
+</script>

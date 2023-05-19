@@ -1,0 +1,428 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "ReadHtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12 col-sm-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="form-group row">
+                    <label class="col-12 col-md-2 col-xl-2 control-label" for="demo-email-input">Department<span class="text-danger">*</span></label>
+                    <div class="col-12 col-md-4 col-xl-4">
+                        <span class="colon">:</span>
+                        <select class="form-control" id="ddlDept" asp-items="@(new SelectList(ViewBag.Department, "DEPTID", "DEPTNAME"))">
+                            <option value="0">--Select Department--</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-12 col-md-2 col-xl-2 control-label" for="demo-email-input">Form Name<span class="text-danger">*</span></label>
+                    <div class="col-12 col-md-4 col-xl-4">
+                        <span class="colon">:</span>
+                        <input type="hidden" id="hdnsid" value="0" />
+                        <input type="text" id="txtDname" class="form-control" data-bind="value: schemE_NAME" required maxlength="100" style=" background-color: beige; ">
+                    </div>
+                </div>
+
+                <div class="form-group row" id="tbldiv">
+                    <label class="col-12 col-md-2 col-xl-2 control-label" for="demo-email-input">Table Name<span class="text-danger">*</span></label>
+                    <div class="col-12 col-md-4 col-xl-4">
+                        <span class="colon">:</span>
+                        <input type="text" id="txtTname" class="form-control" required maxlength="100" style=" background-color: beige; ">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-12 col-md-2 col-xl-2 control-label" for="demo-email-input">Icon</label>
+                    <div class="col-12 col-md-6 col-xl-4">
+                        <span class="colon">:</span>
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="fuUploadPocicon">
+                            <label class="custom-file-label" for="customFile" id="fuUploadPocPrevicon">Choose file</label>
+                        </div>
+
+                        <div class="clearfix"></div>
+                        <div><small class="text-danger">Max file size is 5MB Only svg allowed</small></div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-12 col-md-2 col-xl-2 control-label" for="demo-email-input">Template<span class="text-danger">*</span></label>
+                    <div class="col-12 col-md-4 col-xl-4">
+                        <span class="colon">:</span>
+                        <select class="form-control" id="ddlTemplate" asp-items="@(new SelectList(ViewBag.Template, "TEMPLATEID", "TEMPLATE_NAME"))">
+                            <option value="0">--Select Template--</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-12 col-md-2 col-xl-2 control-label" for="demo-email-input">Script File</label>
+                    <div class="col-12 col-md-6 col-xl-4">
+                        <span class="colon">:</span>
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="fuUploadPocjs">
+                            <label class="custom-file-label" for="customFile" id="fuUploadPocPrevjs">Choose file</label>
+                        </div>
+
+                        <div class="clearfix"></div>
+                        <div><small class="text-danger">Max file size is 5MB Only .JS allowed</small></div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-12 col-md-2 col-xl-2 control-label" for="demo-email-input">Html File</label>
+                    <div class="col-12 col-md-6 col-xl-4">
+                        <span class="colon">:</span>
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="fuUploadPoc">
+                            <label class="custom-file-label" for="customFile" id="fuUploadPocPrev">Choose file</label>
+                        </div>
+
+                        <div class="clearfix"></div>
+                        <div><small class="text-danger">Max file size is 5MB Only html allowed</small></div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-12 col-md-2 col-xl-2 control-label"></label>
+                    <div class="col-12 col-md-6 col-xl-4">
+                        <button id="BtnSend" onclick="SubmitData()" class="btn btn-success">Add </button>
+                        <button id="BtnReset" onclick="ClearScheme()" class="btn btn-danger">Reset</button>
+                    </div>
+                </div>
+                <button id="Btngenerate" onclick="GenerateData()" class="btn btn-success" style="display:none;">Generate </button>
+                <div id="divdata"></div>
+                @*<div class="form-group row" id="divtbl" style="display:none;">
+                        <label class="col-12 col-md-2 col-xl-2 control-label" for="demo-email-input">Table Name<span class="text-danger">*</span></label>
+                        <div class="col-12 col-md-6 col-xl-6">
+                            <input type="text" id="txtTblname" class="form-control">
+                        </div>
+                    </div>*@
+                <table id="example" cellspacing="0" class="table table-bordered mt-4" style="display:none;">
+                    <thead>
+                        <tr>
+                            <th scope="col" width="50px">SL#</th>
+                            <th style="display:none"></th>
+                            <th scope="col" width="600px">Label Name</th>
+                            <th scope="col" width="200px">Display Name</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbltbody">
+                    </tbody>
+                </table>
+                <button id="BtnSave" onclick="SaveData()" class="btn btn-success" style="display:none;">Save </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function GenerateData() {
+        const divElem = document.getElementById("divdata");
+        const inputElements = divElem.querySelectorAll("label,input, select, checkbox, textarea")
+        console.log(inputElements)
+        //document.getElementById("txtTblname").value = "Tbl_" + $('#fuUploadPoc')[0].files[0].name.split(".")[0];
+        document.getElementById("tbltbody").innerHTML = "";
+        var tbody = document.getElementById("tbltbody");
+        var Cnt = 0;
+        for (var i = 0; i < inputElements.length; i++)
+        {
+            var Displayname = ""; var ControlType = "";
+            if (inputElements[i].nodeName.toUpperCase() == "LABEL") {
+                var tr = document.createElement('tr');
+                Displayname = inputElements[i].innerText
+                Cnt = Cnt + 1;
+                //if (inputElements[i + 1].nodeName.toUpperCase() == "INPUT") {
+                //    ControlType = inputElements[i + 1].attributes.type;
+                //}
+                //else {
+                //    ControlType = inputElements[i + 1].nodeName;
+                //}
+                if (Displayname != "") {
+                    tr.innerHTML = "<td>" + Cnt + "</td>" +
+                        "<td style='display: none'>" + inputElements[i + 1].nodeName + "</td>" +
+                        "<td><input type='text' id='txtlabelname_" + Cnt + "' class='form-control' value='" + inputElements[i + 1].id + "'></td>" +
+                        "<td><input type='text' id='txtdisplayname_" + Cnt + "' class='form-control' value='" + Displayname + "'></td>" +
+                        "</tr>";
+                }
+            }
+            tbody.append(tr);
+        }
+
+    }
+    function SaveData() {
+        var tbody = document.getElementById("tbltbody");
+        var jsondata = "{  'pages': [   {    'name': 'page1',    'elements': [";
+        for (var i = 0; i < tbody.rows.length; i++) {
+            if (tbody.rows[i].children.length > 0) {
+                if (tbody.rows[i].children[1].innerText.toUpperCase() == "SELECT") {
+                    jsondata = jsondata + "{'type': 'dropdown', 'name': '" + tbody.rows[i].children[2].innerText + "','title': '" + tbody.rows[i].children[3].innerText + "', 'choices': [{ 'value': '1', 'text':'Bhubaneswar' }, { 'value': '2', 'text': 'Bangalore' }, { 'value': '3', 'text': 'Delhi' } ]},";
+                }
+                else if (tbody.rows[i].children[1].innerText.toUpperCase() == "INPUT") {
+                    jsondata = jsondata + "{'type': 'text', 'name': '" + tbody.rows[i].children[2].innerText + "','title': '" + tbody.rows[i].children[3].innerText + "'},";
+                }
+            }
+        }
+        jsondata = jsondata + "]   }  ] }";
+
+        var fileData = new FormData(); //Creating FormData Object to fill the values entered by the  user for insert into the database
+                fileData.append("ID", $("#hdnsid").val());
+                fileData.append("DEPTID", $("#ddlDept").val());
+                fileData.append("SCHEME_NAME", $("#txtDname").val());
+            fileData.append("TEMPLATEID", $("#ddlTemplate").val());
+        fileData.append("TABLE_NAME", $("#txtTname").val());
+        fileData.append("JSONSTRING", jsondata);
+                    if (window.FormData !== undefined) {
+                        var fileUpload = $("#fuUploadPoc").get(0);
+
+                        var files = fileUpload.files;
+                        if (files.length > 0) {
+                            for (var i = 0; i < files.length; i++) {
+                                fileData.append(files[i].name, files[i]);
+                            }
+                        }
+                        else {
+                            fileData.append("GOAL_IMAGE", $('#fuUploadPocPrev')[0].innerText);
+                        }
+                        var fileUploadjs = $("#fuUploadPocjs").get(0);
+
+                        var jsFiles = fileUploadjs.files;
+                        if (jsFiles.length > 0) {
+                            for (var i = 0; i < jsFiles.length; i++) {
+                                fileData.append(jsFiles[i].name, jsFiles[i]);
+                            }
+                        }
+                        else {
+                            fileData.append("SCRIPT_FILE", $('#fuUploadPocPrevjs')[0].innerText);
+                        }
+                    }
+
+                    $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("InsertSchemethroughHtml", "Admin")',
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("XSRF-TOKEN",
+                            $('input:hidden[name="__RequestVerificationToken"]').val());
+                    },
+                    data: fileData,
+                    contentType: false, // Not to set any content header
+                    processData: false, // Not to process data
+                    success: function (data) {
+                        if (data.status == 1) {
+                            bootbox.alert("Form Inserted Successfully.");
+                            BindScheme();
+                            document.getElementById("txtDname").value = "";
+                            $('#fuUploadPocPrev').text('Choose file');
+                                //vm.GetSchemes(vm.selectedDep().deptid());
+                        }
+                        else if (data.status == 2) {
+                            bootbox.alert("Form Updated Successfully.");
+                            document.getElementById("BtnSend").innerText = "Add";
+                            BindScheme();
+                            document.getElementById("txtDname").value = "";
+                            $('#fuUploadPocPrev').text('Choose file');
+                            document.getElementById("hdnsid").value = "0";
+                                //vm.GetSchemes(vm.selectedDep().deptid());
+                        }
+                        else if (data.status == 3) {
+                            bootbox.alert(data.msg);
+                            return false;
+                            //document.getElementById("BtnSend").innerText = "Add scheme";
+                            BindScheme();
+                            document.getElementById("txtDname").value = "";
+                                //vm.GetSchemes(vm.selectedDep().deptid());
+                        }
+                        //BindScheme();
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        // TODO: Show error
+
+                    }
+                });
+    }
+</script>
+<script>
+    $('#fuUploadPoc').on('change', function (e) {
+        var file = $('#fuUploadPoc')[0].files[0].name;
+        $('#fuUploadPocPrev').text(file);
+        if (!ValidateFile('fuUploadPoc', 'Valid Document')) {
+            return false;
+        };
+        if (!CheckFileType('fuUploadPoc', '2')) {
+            return false;
+        };
+    });
+
+    function ValidateFile(cntr, strText) {
+        var strValue = $('#' + cntr).get(0).files.length;
+        if (strValue == "0") {
+            bootbox.alert("Please upload " + strText);
+            $('#fuUploadPocPrev').text("Choose File");
+            return false;
+        }
+        else
+            return true;
+    }
+    function CheckFileType(cntr, ftype) {
+    var userImg = '@Url.Content("~/imgs/no_user.png")';
+    // Get the file upload control file extension
+    var extn = $('#' + cntr).val().split('.').pop().toLowerCase();
+    if (extn != '') {
+
+        // Create array with the files extensions to upload
+        var fileListToUpload;
+        if (parseInt(ftype) == 1)
+            fileListToUpload = new Array('pdf', 'jpg', 'jpeg');
+        else if (parseInt(ftype) == 2)
+            fileListToUpload = new Array('html','cshtml');
+        else if (parseInt(ftype) == 3)
+            fileListToUpload = new Array('pdf');
+        else if (parseInt(ftype) == 4)
+            fileListToUpload = new Array('js');
+        else
+            fileListToUpload = new Array('ts');
+
+        //Check the file extension is in the array.
+        var isValidFile = $.inArray(extn, fileListToUpload);
+
+        // isValidFile gets the value -1 if the file extension is not in the list.
+        if (isValidFile == -1) {
+            if (parseInt(ftype) == 1) {
+                bootbox.alert('Please upload a valid document of type pdf/jpg/jpeg!!!');
+                $('#' + cntr).replaceWith($('#' + cntr).val('').clone(true));
+                $('#' + cntr).focus();
+            }
+            else if (parseInt(ftype) == 2) {
+                bootbox.alert('Please upload a valid html/cshtml document.!!!');
+                $('#fuUploadPocPrev').text("Choose file");
+                $('#showPhoto').attr('src', userImg);
+                $('#' + cntr).replaceWith($('#' + cntr).val('').clone(true));
+                $('#' + cntr).focus()
+            }
+            else if (parseInt(ftype) == 3) {
+                bootbox.alert("<strong>Please upload a valid pdf file</strong>");
+                $('#fuUploadPocPrev').text("Choose File");
+                $('#' + cntr).replaceWith($('#' + cntr).val('').clone(true));
+                $('#' + cntr).focus();
+            }
+            else if (parseInt(ftype) == 4) {
+                bootbox.alert("<strong>Please upload a valid js file</strong>");
+                $('#fuUploadPocPrevjs').text("Choose File");
+                $('#' + cntr).replaceWith($('#' + cntr).val('').clone(true));
+                $('#' + cntr).focus();
+            }
+            else {
+                bootbox.alert('Please Upload a valid document !!!');
+                $('#' + cntr).replaceWith($('#' + cntr).val('').clone(true));
+                $('label[id*="' + cntr + '"]').text('');
+                $('#' + cntr).focus();
+            }
+        }
+        else {
+            // Restrict the file size to 2MB(1024 * 5120;)
+            if (parseInt(ftype) == 4) {
+                if ($('#' + cntr).get(0).files[0].size > (5242880)) {
+                    bootbox.alert("<strong>Proceeding file size should not exceed 5MB.!!!</strong>");
+                    $('#fuUploadPocPrevjs').text("Choose File");
+                    $('#' + cntr).replaceWith($('#' + cntr).val('').clone(true));
+                    $('#' + cntr).focus();
+                }
+                if ($('#' + cntr).get(0).files[0].name.length > 100) {
+                    bootbox.alert("<strong>Proceeding file Name should be maximum 100 Characters!</strong>");
+                    $('#fuUploadPocPrevjs').text("Choose File");
+                    $('#' + cntr).replaceWith($('#' + cntr).val('').clone(true));
+                    $('label[id*="' + cntr + '"]').text('');
+                    $('#' + cntr).focus();
+                }
+                else
+                    return true;
+            }
+            else {
+                if ($('#' + cntr).get(0).files[0].size > (5242880)) {
+                    bootbox.alert("<strong>Proceeding file size should not exceed 5MB.!!!</strong>");
+                    $('#fuUploadPocPrev').text("Choose File");
+                    $('#' + cntr).replaceWith($('#' + cntr).val('').clone(true));
+                    $('#' + cntr).focus();
+                }
+                if ($('#' + cntr).get(0).files[0].name.length > 100) {
+                    bootbox.alert("<strong>Proceeding file Name should be maximum 100 Characters!</strong>");
+                    $('#fuUploadPocPrev').text("Choose File");
+                    $('#' + cntr).replaceWith($('#' + cntr).val('').clone(true));
+                    $('label[id*="' + cntr + '"]').text('');
+                    $('#' + cntr).focus();
+                }
+                else
+                    return true;
+            }
+
+        }
+    }
+    else
+        return true;
+    }
+    function SubmitData() {
+        if ($('#ddlDept').val() == "") {
+            bootbox.alert("Please Select Department!");
+            $('#ddlDept').focus();
+            return false;
+        }
+        else if ($('#txtDname').val() == "") {
+            bootbox.alert("Please enter Form Name!");
+            return false;
+            $('#txtDname').focus();
+        }
+        else if ($('#ddlTemplate').val() == "0") {
+            bootbox.alert("Please choose Template!");
+            return false;
+            $('#ddlTemplate').focus();
+        }
+        if ($('#txtTname').val() == "") {
+            bootbox.alert("Please enter Table Name!");
+            return false;
+            $('#txtTname').focus();
+        }
+        else {
+            var fileData = new FormData();
+
+            if (window.FormData !== undefined) {
+                var fileUpload = $("#fuUploadPoc").get(0);
+
+                var files = fileUpload.files;
+                if (files.length > 0) {
+                    for (var i = 0; i < files.length; i++) {
+                        fileData.append(files[i].name, files[i]);
+                    }
+                }
+                else {
+                    fileData.append("GOAL_IMAGE", $('#fuUploadPocPrev')[0].innerText);
+                }
+            }
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("ReadHtmlControl", "Admin")',
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("XSRF-TOKEN",
+                        $('input:hidden[name="__RequestVerificationToken"]').val());
+                },
+                data: fileData,
+                contentType: false, // Not to set any content header
+                processData: false, // Not to process data
+                success: function (data) {
+                    //$("#htmliframe").show();
+                    //$("#htmliframe").prop("src", "/SchemeDocuments/" + data.fullname);
+                    $("#divdata").load("/SchemeDocuments/" + data.fullname);
+                    document.getElementById("Btngenerate").style.display = "block";
+                   // document.getElementById("divtbl").style.display = "block";
+                    document.getElementById("example").style.display = "block";
+                    document.getElementById("BtnSave").style.display = "block";
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    // TODO: Show error
+
+                }
+            });
+        }
+    }
+
+</script>

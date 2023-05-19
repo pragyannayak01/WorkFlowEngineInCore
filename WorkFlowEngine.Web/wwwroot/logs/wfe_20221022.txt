@@ -1,0 +1,4 @@
+2022-10-22 08:52:50.033 +05:30 [ERR] There are fewer columns in the INSERT statement than values specified in the VALUES clause. The number of values in the VALUES clause must match the number of columns specified in the INSERT statement.
+2022-10-22 12:54:07.734 +05:30 [ERR] There are fewer columns in the INSERT statement than values specified in the VALUES clause. The number of values in the VALUES clause must match the number of columns specified in the INSERT statement.
+2022-10-22 13:37:51.710 +05:30 [ERR] Incorrect syntax near 'Male'.
+2022-10-22 13:41:07.208 +05:30 [ERR] Incorrect syntax near 'Male'.
